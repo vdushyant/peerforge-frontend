@@ -50,9 +50,3 @@ export async function refreshTokenApi(
 
   return data;
 }
-
-export async function logoutApi(refreshToken: string) {
-    await axiosInstance.post("/auth/logout", {
-        refreshToken,
-    });
-}

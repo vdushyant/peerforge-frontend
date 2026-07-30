@@ -3,7 +3,7 @@ import type { LoginRequest, RegisterRequest } from "../types/auth";
 import type { UserProfile } from "@/features/profile/types/profile";
 
 export interface AuthContextType {
-  user: UserProfile | null;
+  user: UserProfile;
 
   isAuthenticated: boolean;
 

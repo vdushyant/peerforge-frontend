@@ -20,5 +20,5 @@ export interface AuthenticationResponse {
 export interface AuthResult {
     accessToken: string;
     refreshToken: string;
-    profile: UserProfile | null;
+    profile: UserProfile;
 }

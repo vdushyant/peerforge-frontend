@@ -46,15 +46,7 @@ export async function restoreSession(): Promise<UserProfile | null> {
 
   try {
     return await getMyProfileApi();
-  } catch (error) {
-    if (
-      axios.isAxiosError(error) &&
-      error.response?.status === 404 &&
-      error.response.data?.message === "Profile not found"
-    ) {
-      return null;
-    }
-
+  } catch {
     tokenStorage.clearTokens();
     return null;
   }
@@ -80,25 +72,11 @@ async function buildAuthResult(
 ): Promise<AuthResult> {
   tokenStorage.saveTokens(accessToken, refreshToken);
 
-  let profile: UserProfile | null = null;
+  const profile = await getMyProfileApi();
 
-  try {
-    profile = await getMyProfileApi();
-  } catch (error) {
-    if (
-      !(
-        axios.isAxiosError(error) &&
-        error.response?.status === 404 &&
-        error.response.data?.message === "Profile not found"
-      )
-    ) {
-      throw error;
-    }
-  }
-
-  return {
+return {
     accessToken,
     refreshToken,
     profile,
-  };
+};
 }
