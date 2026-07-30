@@ -7,6 +7,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const navItems = [
   { label: "Home", href: "#" },
@@ -39,12 +40,16 @@ export default function Navbar() {
 
           {/* Desktop Buttons */}
           <div className="hidden items-center gap-4 md:flex">
-            <Button variant="ghost">
-              Login
+            <Button variant="ghost" asChild>
+              <Link to="/login">
+                Login
+              </Link>
             </Button>
 
-            <Button>
-              Sign Up Free
+            <Button asChild>
+              <Link to="/register">
+                Sign Up Free
+              </Link>
             </Button>
           </div>
 
@@ -78,28 +83,32 @@ export default function Navbar() {
                     duration-200
                     hover:bg-violet-500/10
                     hover:text-violet-400" >
-                { item.label }
+                    {item.label}
                   </a>
                 ))}
 
-              <div className="mt-8 flex flex-col gap-4">
+                <div className="mt-8 flex flex-col gap-4">
 
-                <Button variant="ghost">
-                  Login
-                </Button>
+                  <Button variant="ghost" asChild>
+                    <Link to="/login">
+                      Login
+                    </Link>
+                  </Button>
 
-                <Button>
-                  Sign Up Free
-                </Button>
+                  <Button asChild>
+                    <Link to="/register">
+                      Sign Up Free
+                    </Link>
+                  </Button>
+
+                </div>
 
               </div>
+            </SheetContent>
+          </Sheet>
 
-            </div>
-          </SheetContent>
-        </Sheet>
-
-      </div>
-    </Container>
+        </div>
+      </Container>
     </header >
   );
 }

@@ -1,26 +1,64 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import LandingPage from "../pages/LandingPage";
-import LoginPage from "../pages/auth/LoginPage";
-import RegisterPage from "../pages/auth/RegisterPage";
-import DashboardPage from "../pages/dashboard/DashboardPage";
-import MentorListPage from "../pages/mentor/MentorListPage";
-import MentorProfilePage from "../pages/mentor/MentorProfilePage";
-import MySessionsPage from "../pages/session/MySessionsPage";
-import NotFoundPage from "../pages/NotFoundPage";
+import LandingPage from "../LandingPage";
+import LoginPage from "../features/auth/pages/LoginPage";
+import RegisterPage from "../features/auth/pages/RegisterPage";
+import DashboardPage from "../features/dashboard/DashboardPage";
+import MentorListPage from "../features/mentor/pages/MentorListPage";
+import MentorProfilePage from "../features/mentor/pages/MentorProfilePage";
+import MySessionsPage from "../features/session/pages/MySessionsPage";
+import NotFoundPage from "../NotFoundPage";
+import { ProtectedRoute } from "./ProtectedRoute";
+import GuestRoute from "./GuestRoute";
 
 export default function AppRouter() {
     return (
         <BrowserRouter>
             <Routes>
+
                 <Route path="/" element={<LandingPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/mentors" element={<MentorListPage />} />
-                <Route path="/mentors/:mentorId" element={<MentorProfilePage />} />
-                <Route path="/sessions" element={<MySessionsPage />} />
-                <Route path="*" element={<NotFoundPage />} />
+
+                <Route element={<GuestRoute />}>
+                    <Route
+                        path="/login"
+                        element={<LoginPage />}
+                    />
+
+                    <Route
+                        path="/register"
+                        element={<RegisterPage />}
+                    />
+                </Route>
+
+                <Route element={<ProtectedRoute />}>
+
+                    <Route
+                        path="/dashboard"
+                        element={<DashboardPage />}
+                    />
+
+                    <Route
+                        path="/mentors"
+                        element={<MentorListPage />}
+                    />
+
+                    <Route
+                        path="/mentors/:mentorId"
+                        element={<MentorProfilePage />}
+                    />
+
+                    <Route
+                        path="/sessions"
+                        element={<MySessionsPage />}
+                    />
+
+                </Route>
+
+                <Route
+                    path="*"
+                    element={<NotFoundPage />}
+                />
+
             </Routes>
         </BrowserRouter>
     );
