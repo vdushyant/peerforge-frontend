@@ -1,8 +1,12 @@
-import type { UserProfile } from "@/features/profile/types/profile";
+import type { Profile } from "@/features/profile/types/profile";
 
 export interface LoginRequest {
   email: string;
   password: string;
+}
+
+export interface LogoutRequest {
+  refreshToken: string;
 }
 
 export interface RegisterRequest {
@@ -20,5 +24,5 @@ export interface AuthenticationResponse {
 export interface AuthResult {
     accessToken: string;
     refreshToken: string;
-    profile: UserProfile;
+    profile: Profile;
 }

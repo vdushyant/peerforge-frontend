@@ -1,11 +1,12 @@
 import { tokenStorage } from "@/utils/tokenStorage";
 
 import {
-  getMyProfileApi,
   loginApi,
   logoutApi,
   registerApi,
-} from "../api/authApi";
+} from "../api";
+
+import { getMyProfileApi } from "@/features/profile/api";
 
 import type {
   LoginRequest,
@@ -13,9 +14,7 @@ import type {
   RegisterRequest,
 } from "../types/auth";
 
-import type { UserProfile } from "@/features/profile/types/profile";
-
-import axios from "axios";
+import type { Profile } from "@/features/profile/types/profile";
 
 export async function loginUser(
   request: LoginRequest
@@ -39,7 +38,7 @@ export async function registerUser(
   );
 }
 
-export async function restoreSession(): Promise<UserProfile | null> {
+export async function restoreSession(): Promise<Profile | null> {
   if (!tokenStorage.hasAccessToken()) {
     return null;
   }
@@ -57,7 +56,9 @@ export async function logoutUser() {
 
   if (refreshToken) {
     try {
-      await logoutApi(refreshToken);
+      await logoutApi({
+        refreshToken,
+      });
     } catch {
       // Ignore backend failure
     }

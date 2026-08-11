@@ -1,4 +1,4 @@
-export interface UserProfile {
+export interface Profile {
   id: number;
 
   firstName: string;
@@ -7,13 +7,22 @@ export interface UserProfile {
 
   roles: string[];
 
-  headline: string;
-  bio: string;
+  headline: string | null;
+  bio: string | null;
 
-  yearsOfExperience: number;
+  yearsOfExperience: number | null;
 
-  githubUrl: string;
-  linkedInUrl: string;
+  githubUrl: string | null;
+  linkedInUrl: string | null;
 
+  skills: string[];
+}
+
+export interface UpdateProfileRequest {
+  headline: string | null;
+  bio: string | null;
+  yearsOfExperience: number | null;
+  githubUrl: string | null;
+  linkedInUrl: string | null;
   skills: string[];
 }

@@ -1,26 +1,25 @@
-const ACCESS_TOKEN_KEY = "accessToken";
-const REFRESH_TOKEN_KEY = "refreshToken";
+import { STORAGE_KEYS } from "@/constants/storageKeys";
 
 export const tokenStorage = {
   saveTokens(accessToken: string, refreshToken: string) {
-    localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
-    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+    localStorage.setItem( STORAGE_KEYS.ACCESS_TOKEN, accessToken);
+    localStorage.setItem( STORAGE_KEYS.REFRESH_TOKEN, refreshToken);
   },
 
   getAccessToken() {
-    return localStorage.getItem(ACCESS_TOKEN_KEY);
+    return localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
   },
 
   getRefreshToken() {
-    return localStorage.getItem(REFRESH_TOKEN_KEY);
+    return localStorage.getItem(STORAGE_KEYS.REFRESH_TOKEN);
   },
 
   hasAccessToken() {
-    return !!localStorage.getItem(ACCESS_TOKEN_KEY);
+    return !!localStorage.getItem(STORAGE_KEYS.ACCESS_TOKEN);
   },
 
   clearTokens() {
-    localStorage.removeItem(ACCESS_TOKEN_KEY);
-    localStorage.removeItem(REFRESH_TOKEN_KEY);
+    localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+    localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN  );
   },
 };

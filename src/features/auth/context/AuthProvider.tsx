@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 import { AuthContext } from "./AuthContext";
 
-import type { UserProfile } from "@/features/profile/types/profile";
+import type { Profile } from "@/features/profile/types/profile";
 import type {
   LoginRequest,
   RegisterRequest,
@@ -25,7 +25,7 @@ interface AuthProviderProps {
 export function AuthProvider({
   children,
 }: AuthProviderProps) {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const [user, setUser] = useState<Profile | null>(null);
 
   const [isAuthenticated, setIsAuthenticated] = useState(
     tokenStorage.hasAccessToken()

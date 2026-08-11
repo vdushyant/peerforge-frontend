@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { APP_ROUTES } from "@/constants/routes";
 
 export default function GuestRoute() {
   const {
@@ -13,7 +14,7 @@ export default function GuestRoute() {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={APP_ROUTES.DASHBOARD} replace />;
   }
 
   return <Outlet />;

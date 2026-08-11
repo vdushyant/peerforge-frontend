@@ -1,9 +1,9 @@
 import { createContext } from "react";
 import type { LoginRequest, RegisterRequest } from "../types/auth";
-import type { UserProfile } from "@/features/profile/types/profile";
+import type { Profile } from "@/features/profile/types/profile";
 
 export interface AuthContextType {
-  user: UserProfile;
+  user: Profile| null;
 
   isAuthenticated: boolean;
 

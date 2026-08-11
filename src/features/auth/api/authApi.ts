@@ -2,9 +2,9 @@ import axiosInstance from "@/api/axios";
 import type {
   AuthenticationResponse,
   LoginRequest,
+  LogoutRequest,
   RegisterRequest,
 } from "../types/auth";
-import type { UserProfile } from "@/features/profile/types/profile";
 
 export async function loginApi(
   request: LoginRequest
@@ -13,6 +13,19 @@ export async function loginApi(
   const { data } =
     await axiosInstance.post(
       "/auth/login",
+      request
+    );
+
+  return data;
+}
+
+export async function logoutApi(
+  request: LogoutRequest
+): Promise<AuthenticationResponse> {
+
+  const { data } =
+    await axiosInstance.post(
+      "/auth/logout",
       request
     );
 
@@ -29,11 +42,6 @@ export async function registerApi(
       request
     );
 
-  return data;
-}
-
-export async function getMyProfileApi(): Promise<UserProfile> {
-  const { data } = await axiosInstance.get("/profile/me");
   return data;
 }
 
