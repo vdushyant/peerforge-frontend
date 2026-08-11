@@ -13,6 +13,8 @@ import NotFoundPage from "../NotFoundPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 import DashboardLayout from "@/layouts/DashboardLayout";
+import BecomeMentorPage from "@/features/mentor/pages/BecomeMentorPage";
+import { APP_ROUTES } from "@/constants/routes";
 
 export default function AppRouter() {
     return (
@@ -23,12 +25,12 @@ export default function AppRouter() {
 
                 <Route element={<GuestRoute />}>
                     <Route
-                        path="/login"
+                        path={APP_ROUTES.LOGIN}
                         element={<LoginPage />}
                     />
 
                     <Route
-                        path="/register"
+                        path={APP_ROUTES.REGISTER}
                         element={<RegisterPage />}
                     />
                 </Route>
@@ -38,17 +40,17 @@ export default function AppRouter() {
                     <Route element={<DashboardLayout />}>
 
                         <Route
-                            path="/dashboard"
+                            path={APP_ROUTES.DASHBOARD}
                             element={<DashboardPage />}
                         />
 
                         <Route
-                            path="/profile"
+                            path={APP_ROUTES.PROFILE}
                             element={<ProfilePage />}
                         />
 
                         <Route
-                            path="/mentors"
+                            path={APP_ROUTES.MENTORS}
                             element={<MentorListPage />}
                         />
 
@@ -67,6 +69,10 @@ export default function AppRouter() {
                             element={<SettingsPage />}
                         />
 
+                        <Route
+                            path={APP_ROUTES.MENTOR.BECOME}
+                            element={<BecomeMentorPage />}
+                        />
                     </Route>
 
                 </Route>

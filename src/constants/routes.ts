@@ -5,4 +5,5 @@ export const APP_ROUTES = {
   DASHBOARD: "/dashboard",
   PROFILE: "/profile",
   MENTORS: "/mentors",
+  MENTOR: {BECOME: "/mentor/become",},
 };
