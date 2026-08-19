@@ -14,6 +14,8 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import BecomeMentorPage from "@/features/mentor/pages/BecomeMentorPage";
+import MentorDashboardPage from "@/features/mentor/pages/MentorDashboardPage";
+import MentorDetailPage from "@/features/mentor/pages/MentorDetailPage";
 import { APP_ROUTES } from "@/constants/routes";
 
 export default function AppRouter() {
@@ -45,6 +47,11 @@ export default function AppRouter() {
                         />
 
                         <Route
+                            path={APP_ROUTES.MENTOR.BECOME}
+                            element={<BecomeMentorPage />}
+                        />
+
+                        <Route
                             path={APP_ROUTES.PROFILE}
                             element={<ProfilePage />}
                         />
@@ -55,8 +62,8 @@ export default function AppRouter() {
                         />
 
                         <Route
-                            path="/mentors/:mentorId"
-                            element={<MentorProfilePage />}
+                        path={APP_ROUTES.MENTOR.DETAIL}
+                        element={<MentorDetailPage />}
                         />
 
                         <Route
@@ -69,11 +76,14 @@ export default function AppRouter() {
                             element={<SettingsPage />}
                         />
 
-                        <Route
-                            path={APP_ROUTES.MENTOR.BECOME}
-                            element={<BecomeMentorPage />}
-                        />
+                        
                     </Route>
+
+                    <Route
+                        path={APP_ROUTES.MENTOR.DASHBOARD}
+                        element={<MentorDashboardPage />}
+                    />
+                    
 
                 </Route>
 

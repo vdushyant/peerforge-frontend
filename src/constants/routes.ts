@@ -5,5 +5,9 @@ export const APP_ROUTES = {
   DASHBOARD: "/dashboard",
   PROFILE: "/profile",
   MENTORS: "/mentors",
-  MENTOR: {BECOME: "/mentor/become",},
+  MENTOR: {
+    BECOME: "/mentor/become",
+    DASHBOARD: "/mentor/dashboard",
+    DETAIL: "/mentors/:mentorId",
+  }
 };
