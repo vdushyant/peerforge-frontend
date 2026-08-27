@@ -9,5 +9,8 @@ export const APP_ROUTES = {
     BECOME: "/mentor/become",
     DASHBOARD: "/mentor/dashboard",
     DETAIL: "/mentors/:mentorId",
-  }
+    SESSIONS: "/mentor/sessions",
+  },
+  MY_SESSIONS: "/sessions",
+  SETTINGS: "/settings"
 };

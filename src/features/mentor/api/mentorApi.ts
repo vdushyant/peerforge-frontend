@@ -84,3 +84,13 @@ export async function getMentorByIdApi(
 
   return response.data;
 }
+
+export async function getMentorAvailabilityApi(
+  mentorId: number
+): Promise<Availability[]> {
+  const response = await axiosInstance.get<Availability[]>(
+    `/mentors/${mentorId}/availability`
+  );
+
+  return response.data;
+}

@@ -6,7 +6,13 @@ export const queryKeys = {
     availability: ["mentor", "availability"] as const,
     list: ["mentor", "list"] as const,
     detail: (mentorId: number) =>
-    ["mentor", "detail", mentorId] as const,
+      ["mentor", "detail", mentorId] as const,
+    publicAvailability: (mentorId: number) =>
+      ["mentor", "publicAvailability", mentorId] as const,
+  },
+  session: {
+    me: ["session", "me"] as const,
+    mentor: ["session", "mentor"] as const,
   },
 
 };

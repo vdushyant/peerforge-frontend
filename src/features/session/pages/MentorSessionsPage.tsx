@@ -1,12 +1,12 @@
-import SessionCard from "../components/SessionCard";
-import { useMySessions } from "../hooks/useMySessions";
+import MentorSessionCard from "../components/MentorSessionCard";
+import { useMentorSessions } from "../hooks/useMentorSessions";
 
-export default function MySessionsPage() {
+export default function MentorSessionsPage() {
   const {
     data: sessions = [],
     isLoading,
     isError,
-  } = useMySessions();
+  } = useMentorSessions();
 
   if (isLoading) {
     return (
@@ -32,11 +32,11 @@ export default function MySessionsPage() {
     <div className="space-y-6 p-6">
       <div>
         <h1 className="text-3xl font-semibold">
-          My Sessions
+          Incoming Sessions
         </h1>
 
         <p className="mt-2 text-muted-foreground">
-          View your mentoring sessions and their status.
+          Manage sessions requested by clients.
         </p>
       </div>
 
@@ -47,7 +47,7 @@ export default function MySessionsPage() {
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {sessions.map((session) => (
-            <SessionCard
+            <MentorSessionCard
               key={session.id}
               session={session}
             />

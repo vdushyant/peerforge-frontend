@@ -3,11 +3,24 @@ import { LogOut } from "lucide-react";
 
 import Logo from "@/components/branding/Logo";
 import { Button } from "@/components/ui/button";
+
 import { dashboardNavigation } from "../types/navigation";
+
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import { useMyMentorProfile } from "@/features/mentor/hooks/useMyMentorProfile";
 
 export default function DashboardSidebar() {
   const { logout } = useAuth();
+
+  const { data: mentorProfile } =
+    useMyMentorProfile();
+
+  const visibleNavigation =
+    dashboardNavigation.filter(
+      (item) =>
+        !item.mentorOnly ||
+        mentorProfile?.approvalStatus === "APPROVED"
+    );
 
   return (
     <aside className="flex w-64 flex-col border-r border-white/10 bg-[#0B0F19]">
@@ -22,7 +35,7 @@ export default function DashboardSidebar() {
 
       <nav className="flex flex-1 flex-col gap-2 p-4">
 
-        {dashboardNavigation.map((item) => {
+        {visibleNavigation.map((item) => {
           const Icon = item.icon;
 
           return (
@@ -44,7 +57,6 @@ export default function DashboardSidebar() {
               <Icon size={18} />
 
               {item.label}
-
             </NavLink>
           );
         })}
@@ -63,7 +75,6 @@ export default function DashboardSidebar() {
           <LogOut size={18} />
 
           Logout
-
         </Button>
 
       </div>

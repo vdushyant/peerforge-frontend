@@ -5,7 +5,6 @@ import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
 import DashboardPage from "../features/dashboard/pages/DashboardPage";
 import MentorListPage from "../features/mentor/pages/MentorListPage";
-import MentorProfilePage from "../features/mentor/pages/MentorProfilePage";
 import MySessionsPage from "../features/session/pages/MySessionsPage";
 import ProfilePage from "@/features/profile/pages/ProfilePage";
 import SettingsPage from "@/features/settings/pages/SettingsPage";
@@ -16,6 +15,7 @@ import DashboardLayout from "@/layouts/DashboardLayout";
 import BecomeMentorPage from "@/features/mentor/pages/BecomeMentorPage";
 import MentorDashboardPage from "@/features/mentor/pages/MentorDashboardPage";
 import MentorDetailPage from "@/features/mentor/pages/MentorDetailPage";
+import MentorSessionsPage from "@/features/session/pages/MentorSessionsPage";
 import { APP_ROUTES } from "@/constants/routes";
 
 export default function AppRouter() {
@@ -47,6 +47,11 @@ export default function AppRouter() {
                         />
 
                         <Route
+                            path={APP_ROUTES.SETTINGS}
+                            element={<SettingsPage />}
+                        />
+
+                        <Route
                             path={APP_ROUTES.MENTOR.BECOME}
                             element={<BecomeMentorPage />}
                         />
@@ -62,28 +67,27 @@ export default function AppRouter() {
                         />
 
                         <Route
-                        path={APP_ROUTES.MENTOR.DETAIL}
-                        element={<MentorDetailPage />}
+                            path={APP_ROUTES.MENTOR.DETAIL}
+                            element={<MentorDetailPage />}
                         />
 
                         <Route
-                            path="/sessions"
+                            path={APP_ROUTES.MY_SESSIONS}
                             element={<MySessionsPage />}
                         />
 
                         <Route
-                            path="/settings"
-                            element={<SettingsPage />}
+                            path={APP_ROUTES.MENTOR.SESSIONS}
+                            element={<MentorSessionsPage />}
                         />
 
-                        
                     </Route>
 
                     <Route
                         path={APP_ROUTES.MENTOR.DASHBOARD}
                         element={<MentorDashboardPage />}
                     />
-                    
+
 
                 </Route>
 

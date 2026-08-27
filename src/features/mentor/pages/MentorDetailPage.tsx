@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useMentor } from "../hooks/useMentor";
+import { useMentorAvailability } from "../hooks/useMentorAvailability";
+import BookSessionForm from "@/features/session/components/BookSessionForm";
 
 export default function MentorDetailPage() {
   const { mentorId } = useParams();
@@ -14,6 +16,12 @@ export default function MentorDetailPage() {
     isLoading,
     isError,
   } = useMentor(id);
+
+  const {
+  data: availability = [],
+  isLoading: isAvailabilityLoading,
+  isError: isAvailabilityError,
+} = useMentorAvailability(id);
 
   if (!Number.isFinite(id)) {
     return (
@@ -133,6 +141,60 @@ export default function MentorDetailPage() {
           )}
         </CardContent>
       </Card>
+
+      <Card>
+  <CardHeader>
+    <CardTitle>Availability</CardTitle>
+  </CardHeader>
+
+  <CardContent>
+    {isAvailabilityLoading ? (
+      <p className="text-sm text-muted-foreground">
+        Loading availability...
+      </p>
+    ) : isAvailabilityError ? (
+      <p className="text-sm text-destructive">
+        Unable to load availability.
+      </p>
+    ) : availability.length === 0 ? (
+      <p className="text-sm text-muted-foreground">
+        This mentor currently has no availability.
+      </p>
+    ) : (
+      <div className="space-y-3">
+        {availability.map((slot) => (
+          <div
+            key={slot.id}
+            className="flex items-center justify-between rounded-lg border p-4"
+          >
+            <span className="font-medium">
+              {slot.dayOfWeek.charAt(0) +
+                slot.dayOfWeek.slice(1).toLowerCase()}
+            </span>
+
+            <span className="text-sm text-muted-foreground">
+              {slot.startTime.slice(0, 5)} -{" "}
+              {slot.endTime.slice(0, 5)}
+            </span>
+          </div>
+        ))}
+      </div>
+    )}
+  </CardContent>
+</Card>
+
+<Card>
+  <CardHeader>
+    <CardTitle>Book a Session</CardTitle>
+  </CardHeader>
+
+  <CardContent>
+    <BookSessionForm
+      mentorId={mentor.mentorId}
+      availability={availability}
+    />
+  </CardContent>
+</Card>
     </div>
   );
 }

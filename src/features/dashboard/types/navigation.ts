@@ -6,7 +6,14 @@ import {
   User,
 } from "lucide-react";
 
-export const dashboardNavigation = [
+interface DashboardNavigationItem {
+  label: string;
+  to: string;
+  icon: typeof Home;
+  mentorOnly?: boolean;
+}
+
+export const dashboardNavigation: DashboardNavigationItem[] = [
   {
     label: "Dashboard",
     to: "/dashboard",
@@ -26,6 +33,12 @@ export const dashboardNavigation = [
     label: "My Sessions",
     to: "/sessions",
     icon: CalendarDays,
+  },
+  {
+    label: "Incoming Sessions",
+    to: "/mentor/sessions",
+    icon: CalendarDays,
+    mentorOnly: true,
   },
   {
     label: "Settings",
