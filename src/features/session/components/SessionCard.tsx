@@ -6,6 +6,8 @@ import {
 } from "@/components/ui/card";
 
 import type { Session } from "../types/session";
+import { Button } from "@/components/ui/button";
+import { useCancelSession } from "../hooks/useCancelSession";
 
 interface SessionCardProps {
   session: Session;
@@ -36,6 +38,7 @@ function formatTime(dateTime: string) {
 export default function SessionCard({
   session,
 }: SessionCardProps) {
+  const cancelSession = useCancelSession();
   return (
     <Card>
       <CardHeader>
@@ -74,6 +77,21 @@ export default function SessionCard({
           <p className="text-sm text-muted-foreground">
             {session.status}
           </p>
+          {(session.status === "PENDING" ||
+            session.status === "CONFIRMED") && (
+              <Button
+                variant="outline"
+                className="w-full"
+                disabled={cancelSession.isPending}
+                onClick={() =>
+                  cancelSession.mutate(session.id)
+                }
+              >
+                {cancelSession.isPending
+                  ? "Cancelling..."
+                  : "Cancel Session"}
+              </Button>
+            )}
         </div>
       </CardContent>
     </Card>
