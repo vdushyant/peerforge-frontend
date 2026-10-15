@@ -2,8 +2,6 @@ import axiosInstance from "./axios";
 
 import { tokenStorage } from "@/utils/tokenStorage";
 
-const BASE_URL = "http://localhost:8080/api/v1";
-
 export async function refreshAccessToken(): Promise<string> {
 
     const refreshToken =
@@ -16,7 +14,7 @@ export async function refreshAccessToken(): Promise<string> {
     try {
 
         const response = await axiosInstance.post(
-            `${BASE_URL}/auth/refresh`,
+            "/auth/refresh",
             {
                 refreshToken,
             }
