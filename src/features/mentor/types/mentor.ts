@@ -53,6 +53,7 @@ export interface MentorCard {
   skills: string[];
   hourlyRate: number;
   averageRating: number;
+  reviewCount: number;
 }
 
 export interface MentorDetail {
@@ -65,4 +66,5 @@ export interface MentorDetail {
   about: string;
   hourlyRate: number;
   averageRating: number;
+  reviewCount: number;
 }

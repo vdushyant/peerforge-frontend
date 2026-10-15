@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMentor } from "../hooks/useMentor";
 import { useMentorAvailability } from "../hooks/useMentorAvailability";
 import BookSessionForm from "@/features/session/components/BookSessionForm";
+import MentorReviewsSection from "@/features/review/components/MentorReviewsSection";
 
 export default function MentorDetailPage() {
   const { mentorId } = useParams();
@@ -110,7 +111,7 @@ export default function MentorDetailPage() {
               </p>
 
               <p className="text-muted-foreground">
-                {mentor.averageRating.toFixed(1)}
+                {mentor.averageRating.toFixed(1)} ({mentor.reviewCount} {mentor.reviewCount === 1 ? "review" : "reviews"})
               </p>
             </div>
           </CardContent>
@@ -141,6 +142,11 @@ export default function MentorDetailPage() {
           )}
         </CardContent>
       </Card>
+
+      <MentorReviewsSection
+        mentorId={mentor.mentorId}
+        reviewCount={mentor.reviewCount}
+      />
 
       <Card>
   <CardHeader>

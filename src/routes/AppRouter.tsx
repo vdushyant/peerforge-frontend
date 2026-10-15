@@ -16,6 +16,7 @@ import BecomeMentorPage from "@/features/mentor/pages/BecomeMentorPage";
 import MentorDashboardPage from "@/features/mentor/pages/MentorDashboardPage";
 import MentorDetailPage from "@/features/mentor/pages/MentorDetailPage";
 import MentorSessionsPage from "@/features/session/pages/MentorSessionsPage";
+import AdminReviewsPage from "@/features/review/pages/AdminReviewsPage";
 import { APP_ROUTES } from "@/constants/routes";
 
 export default function AppRouter() {
@@ -79,6 +80,11 @@ export default function AppRouter() {
                         <Route
                             path={APP_ROUTES.MENTOR.SESSIONS}
                             element={<MentorSessionsPage />}
+                        />
+
+                        <Route
+                            path={APP_ROUTES.ADMIN.REVIEWS}
+                            element={<AdminReviewsPage />}
                         />
 
                     </Route>

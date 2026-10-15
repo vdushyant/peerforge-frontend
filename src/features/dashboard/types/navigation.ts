@@ -3,6 +3,7 @@ import {
   Home,
   Search,
   Settings,
+  ShieldCheck,
   User,
 } from "lucide-react";
 
@@ -11,6 +12,7 @@ interface DashboardNavigationItem {
   to: string;
   icon: typeof Home;
   mentorOnly?: boolean;
+  adminOnly?: boolean;
 }
 
 export const dashboardNavigation: DashboardNavigationItem[] = [
@@ -39,6 +41,12 @@ export const dashboardNavigation: DashboardNavigationItem[] = [
     to: "/mentor/sessions",
     icon: CalendarDays,
     mentorOnly: true,
+  },
+  {
+    label: "Review Moderation",
+    to: "/admin/reviews",
+    icon: ShieldCheck,
+    adminOnly: true,
   },
   {
     label: "Settings",

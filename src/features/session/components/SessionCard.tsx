@@ -8,6 +8,7 @@ import {
 import type { Session } from "../types/session";
 import { Button } from "@/components/ui/button";
 import { useCancelSession } from "../hooks/useCancelSession";
+import SessionReviewPanel from "@/features/review/components/SessionReviewPanel";
 
 interface SessionCardProps {
   session: Session;
@@ -93,6 +94,9 @@ export default function SessionCard({
               </Button>
             )}
         </div>
+        {session.status === "COMPLETED" && (
+          <SessionReviewPanel sessionId={session.id} />
+        )}
       </CardContent>
     </Card>
   );

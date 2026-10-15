@@ -14,5 +14,10 @@ export const queryKeys = {
     me: ["session", "me"] as const,
     mentor: ["session", "mentor"] as const,
   },
+  review: {
+    eligibility: (sessionId: number) => ["review", "eligibility", sessionId] as const,
+    mentor: (mentorId: number) => ["review", "mentor", mentorId] as const,
+    moderation: (status: string) => ["review", "moderation", status] as const,
+  },
 
 };

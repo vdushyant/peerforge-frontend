@@ -10,7 +10,7 @@ import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useMyMentorProfile } from "@/features/mentor/hooks/useMyMentorProfile";
 
 export default function DashboardSidebar() {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const { data: mentorProfile } =
     useMyMentorProfile();
@@ -21,6 +21,12 @@ export default function DashboardSidebar() {
         !item.mentorOnly ||
         mentorProfile?.approvalStatus === "APPROVED"
     );
+
+  const roleFilteredNavigation = visibleNavigation.filter(
+    (item) =>
+      !item.adminOnly ||
+      user?.roles.some((role) => role === "ADMIN" || role === "ROLE_ADMIN")
+  );
 
   return (
     <aside className="flex w-64 flex-col border-r border-white/10 bg-[#0B0F19]">
@@ -35,7 +41,7 @@ export default function DashboardSidebar() {
 
       <nav className="flex flex-1 flex-col gap-2 p-4">
 
-        {visibleNavigation.map((item) => {
+        {roleFilteredNavigation.map((item) => {
           const Icon = item.icon;
 
           return (

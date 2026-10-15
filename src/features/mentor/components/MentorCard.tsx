@@ -67,7 +67,7 @@ export default function MentorCard({
           <span className="font-medium">
             Rating:
           </span>{" "}
-          {mentor.averageRating.toFixed(1)}
+          {mentor.averageRating.toFixed(1)} ({mentor.reviewCount} {mentor.reviewCount === 1 ? "review" : "reviews"})
         </div>
 
         <Button
