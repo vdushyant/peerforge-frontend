@@ -55,6 +55,12 @@ export const dashboardNavigation: DashboardNavigationItem[] = [
     adminOnly: true,
   },
   {
+    label: "Platform Analytics",
+    to: "/admin/analytics",
+    icon: ShieldCheck,
+    adminOnly: true,
+  },
+  {
     label: "Settings",
     to: "/settings",
     icon: Settings,

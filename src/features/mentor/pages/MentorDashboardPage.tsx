@@ -11,9 +11,11 @@ import {
 import MentorProfileForm from "../components/MentorProfileForm";
 import { useMyMentorProfile } from "../hooks/useMyMentorProfile";
 import MentorAvailabilityCard from "../components/MentorAvailabilityCard";
+import { useMentorDashboardAnalytics } from "@/features/dashboard/hooks/useDashboardAnalytics";
 
 export default function MentorDashboardPage() {
   const [isEditing, setIsEditing] = useState(false);
+  const analytics = useMentorDashboardAnalytics();
 
   const {
     data: mentorProfile,
@@ -112,33 +114,41 @@ export default function MentorDashboardPage() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Sessions Completed</CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <p className="text-2xl font-semibold">
-              {mentorProfile.sessionsCompleted}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Average Rating</CardTitle>
-          </CardHeader>
-
-          <CardContent>
-            <p className="text-2xl font-semibold">
-              {mentorProfile.averageRating.toFixed(1)}
-            </p>
-          </CardContent>
-        </Card>
+      <div>
+        <h2 className="mb-3 text-xl font-semibold">Activity overview</h2>
+        {analytics.isError && (
+          <p className="mb-3 text-sm text-destructive">Activity metrics could not be loaded.</p>
+        )}
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <MetricCard title="Completed sessions" value={analytics.data?.completedSessions ?? "—"} />
+          <MetricCard title="Pending booking requests" value={analytics.data?.pendingBookings ?? "—"} />
+          <MetricCard title="Upcoming confirmed sessions" value={analytics.data?.upcomingSessions ?? "—"} />
+          <MetricCard title="Approved reviews" value={analytics.data?.approvedReviewCount ?? "—"} />
+          <MetricCard title="Average rating" value={analytics.data?.averageRating.toFixed(1) ?? "—"} />
+          <MetricCard
+            title="Gross successful payments"
+            value={analytics.data ? new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(analytics.data.grossSuccessfulPayments) : "—"}
+          />
+        </div>
+        <p className="mt-3 text-xs text-muted-foreground">
+          Gross successful payments are client payments recorded by PeerForge; mentor payouts are not included.
+        </p>
       </div>
       
       <MentorAvailabilityCard />
     </div>
+  );
+}
+
+function MetricCard({ title, value }: { title: string; value: string | number }) {
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-2xl font-semibold">{value}</p>
+      </CardContent>
+    </Card>
   );
 }

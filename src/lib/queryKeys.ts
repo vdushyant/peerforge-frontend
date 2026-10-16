@@ -17,6 +17,10 @@ export const queryKeys = {
   notifications: {
     inbox: ["notifications", "inbox"] as const,
   },
+  dashboard: {
+    mentor: ["dashboard", "mentor"] as const,
+    platform: ["dashboard", "platform"] as const,
+  },
   review: {
     eligibility: (sessionId: number) => ["review", "eligibility", sessionId] as const,
     mentor: (mentorId: number) => ["review", "mentor", mentorId] as const,

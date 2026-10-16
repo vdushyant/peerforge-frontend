@@ -15,6 +15,7 @@ export const APP_ROUTES = {
   NOTIFICATIONS: "/notifications",
   ADMIN: {
     REVIEWS: "/admin/reviews",
+    ANALYTICS: "/admin/analytics",
   },
   SETTINGS: "/settings"
 };
