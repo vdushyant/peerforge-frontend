@@ -12,6 +12,7 @@ export const APP_ROUTES = {
     SESSIONS: "/mentor/sessions",
   },
   MY_SESSIONS: "/sessions",
+  NOTIFICATIONS: "/notifications",
   ADMIN: {
     REVIEWS: "/admin/reviews",
   },

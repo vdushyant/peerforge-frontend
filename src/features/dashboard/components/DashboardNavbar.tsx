@@ -1,4 +1,5 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { Bell } from "lucide-react";
 import {
   Avatar,
   AvatarFallback,
@@ -15,12 +16,14 @@ import { useProfile } from "@/features/profile/hooks";
 import { logoutUser } from "@/features/auth/services/authService";
 
 import { Button } from "@/components/ui/button";
+import { useNotifications } from "@/features/notifications/hooks/useNotifications";
 
 const TITLES: Record<string, string> = {
   "/dashboard": "Dashboard",
   "/profile": "My Profile",
   "/mentors": "Find Mentors",
   "/sessions": "My Sessions",
+  "/notifications": "Notifications",
   "/settings": "Settings",
 };
 
@@ -28,6 +31,7 @@ export default function DashboardNavbar() {
   const { pathname } = useLocation();
 
   const { data: profile } = useProfile();
+  const { data: inbox } = useNotifications();
 
   const initials = profile
     ? `${profile.firstName[0]}${profile.lastName[0]}`
@@ -39,6 +43,21 @@ export default function DashboardNavbar() {
       <h1 className="text-xl font-semibold">
         {TITLES[pathname] ?? "PeerForge"}
       </h1>
+
+      <div className="flex items-center gap-4">
+        <Button asChild variant="ghost" size="icon" className="relative">
+          <Link
+            to="/notifications"
+            aria-label={`Notifications${inbox?.unreadCount ? `, ${inbox.unreadCount} unread` : ""}`}
+          >
+            <Bell />
+            {!!inbox?.unreadCount && (
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-violet-600 px-1 text-[10px] text-white">
+                {inbox.unreadCount > 99 ? "99+" : inbox.unreadCount}
+              </span>
+            )}
+          </Link>
+        </Button>
 
       <DropdownMenu>
 
@@ -78,7 +97,8 @@ export default function DashboardNavbar() {
 
         </DropdownMenuContent>
 
-      </DropdownMenu>
+        </DropdownMenu>
+      </div>
 
     </header>
   );

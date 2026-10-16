@@ -1,5 +1,6 @@
 import {
   CalendarDays,
+  Bell,
   Home,
   Search,
   Settings,
@@ -35,6 +36,11 @@ export const dashboardNavigation: DashboardNavigationItem[] = [
     label: "My Sessions",
     to: "/sessions",
     icon: CalendarDays,
+  },
+  {
+    label: "Notifications",
+    to: "/notifications",
+    icon: Bell,
   },
   {
     label: "Incoming Sessions",

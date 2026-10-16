@@ -14,6 +14,9 @@ export const queryKeys = {
     me: ["session", "me"] as const,
     mentor: ["session", "mentor"] as const,
   },
+  notifications: {
+    inbox: ["notifications", "inbox"] as const,
+  },
   review: {
     eligibility: (sessionId: number) => ["review", "eligibility", sessionId] as const,
     mentor: (mentorId: number) => ["review", "mentor", mentorId] as const,

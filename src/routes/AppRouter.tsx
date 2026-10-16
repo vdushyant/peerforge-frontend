@@ -19,6 +19,7 @@ import MentorDashboardPage from "@/features/mentor/pages/MentorDashboardPage";
 import MentorDetailPage from "@/features/mentor/pages/MentorDetailPage";
 import MentorSessionsPage from "@/features/session/pages/MentorSessionsPage";
 import AdminReviewsPage from "@/features/review/pages/AdminReviewsPage";
+import NotificationsPage from "@/features/notifications/pages/NotificationsPage";
 import { APP_ROUTES } from "@/constants/routes";
 
 export default function AppRouter() {
@@ -52,6 +53,11 @@ export default function AppRouter() {
                 <Route element={<ProtectedRoute />}>
 
                     <Route element={<DashboardLayout />}>
+
+                        <Route
+                            path={APP_ROUTES.NOTIFICATIONS}
+                            element={<NotificationsPage />}
+                        />
 
                         <Route
                             path={APP_ROUTES.DASHBOARD}
