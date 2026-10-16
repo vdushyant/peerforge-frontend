@@ -1,30 +1,14 @@
-import MentorCard from "@/components/common/MentorCard";
 import SectionTitle from "@/components/common/SectionTitle";
 import Container from "@/components/layout/Container";
 import { motion } from "framer-motion";
-
-const mentors = [
-  {
-    name: "Rahul Sharma",
-    role: "Senior Backend Engineer",
-    rating: 4.9,
-    skills: ["Java", "Spring Boot", "AWS"],
-  },
-  {
-    name: "Priya Verma",
-    role: "Frontend Architect",
-    rating: 4.8,
-    skills: ["React", "TypeScript", "Next.js"],
-  },
-  {
-    name: "Aman Gupta",
-    role: "System Design Mentor",
-    rating: 5.0,
-    skills: ["System Design", "Microservices", "Docker"],
-  },
-];
+import { useNavigate } from "react-router-dom";
+import MentorCard from "@/features/mentor/components/MentorCard";
+import { useMentors } from "@/features/mentor/hooks/useMentors";
 
 export default function FeaturedMentorsSection() {
+  const navigate = useNavigate();
+  const { data: mentors = [], isLoading, isError } = useMentors();
+
   return (
     <section className="py-24">
       <Container>
@@ -41,13 +25,17 @@ export default function FeaturedMentorsSection() {
           />
 
           <div className="mt-16 grid gap-8 lg:grid-cols-3">
-            {mentors.map((mentor) => (
+            {isLoading ? (
+              <p className="text-slate-400">Loading mentors...</p>
+            ) : isError ? (
+              <p className="text-slate-400">Mentor listings are temporarily unavailable.</p>
+            ) : mentors.length === 0 ? (
+              <p className="text-slate-400">No approved mentors are listed yet.</p>
+            ) : mentors.slice(0, 3).map((mentor) => (
               <MentorCard
-                key={mentor.name}
-                name={mentor.name}
-                role={mentor.role}
-                rating={mentor.rating}
-                skills={mentor.skills}
+                key={mentor.mentorId}
+                mentor={mentor}
+                onViewProfile={(id) => navigate(`/mentors/${id}`)}
               />
             ))}
           </div>

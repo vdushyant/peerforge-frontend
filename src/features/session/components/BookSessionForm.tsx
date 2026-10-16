@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 
@@ -11,6 +12,7 @@ import { queryKeys } from "@/lib/queryKeys";
 
 import { useBookSession } from "../hooks/useBookSession";
 import type { Session } from "../types/session";
+import { useAuth } from "@/features/auth/hooks/useAuth";
 
 
 interface BookSessionFormProps {
@@ -83,6 +85,7 @@ export default function BookSessionForm({
   mentorId,
   availability,
 }: BookSessionFormProps) {
+  const { isAuthenticated } = useAuth();
   const bookSession = useBookSession();
   const createPaymentOrder = useCreatePaymentOrder();
   const verifyPayment = useVerifyPayment();
@@ -104,6 +107,19 @@ export default function BookSessionForm({
       date: getNextDateForDay(slot.dayOfWeek),
     }));
   }, [availability]);
+
+  if (!isAuthenticated) {
+    return (
+      <div className="space-y-3">
+        <p className="text-sm text-muted-foreground">
+          Sign in to book a session with this mentor.
+        </p>
+        <Button asChild>
+          <Link to="/login">Sign in to book</Link>
+        </Button>
+      </div>
+    );
+  }
 
   if (availability.length === 0) {
     return (

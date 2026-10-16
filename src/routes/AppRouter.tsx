@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LandingPage from "../LandingPage";
+import Navbar from "@/sections/landing/Navbar";
+import Footer from "@/sections/landing/Footer";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
 import DashboardPage from "../features/dashboard/pages/DashboardPage";
@@ -25,6 +27,15 @@ export default function AppRouter() {
             <Routes>
 
                 <Route path="/" element={<LandingPage />} />
+
+                <Route
+                    path={APP_ROUTES.MENTORS}
+                    element={<><Navbar /><MentorListPage /><Footer /></>}
+                />
+                <Route
+                    path={APP_ROUTES.MENTOR.DETAIL}
+                    element={<><Navbar /><MentorDetailPage /><Footer /></>}
+                />
 
                 <Route element={<GuestRoute />}>
                     <Route
@@ -60,16 +71,6 @@ export default function AppRouter() {
                         <Route
                             path={APP_ROUTES.PROFILE}
                             element={<ProfilePage />}
-                        />
-
-                        <Route
-                            path={APP_ROUTES.MENTORS}
-                            element={<MentorListPage />}
-                        />
-
-                        <Route
-                            path={APP_ROUTES.MENTOR.DETAIL}
-                            element={<MentorDetailPage />}
                         />
 
                         <Route

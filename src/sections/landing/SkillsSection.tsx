@@ -1,23 +1,10 @@
 import SectionTitle from "@/components/common/SectionTitle";
 import Container from "@/components/layout/Container";
 import { motion } from "framer-motion";
-
-const skills = [
-  "Java",
-  "Spring Boot",
-  "React",
-  "TypeScript",
-  "System Design",
-  "Docker",
-  "AWS",
-  "PostgreSQL",
-  "Microservices",
-  "Node.js",
-  "Python",
-  "Machine Learning",
-];
+import { useLandingSkills } from "@/features/landing/hooks/useLandingData";
 
 export default function SkillsSection() {
+  const { data: skills = [], isLoading, isError } = useLandingSkills();
   return (
     <section className="py-24">
 
@@ -36,14 +23,19 @@ export default function SkillsSection() {
           />
 
           <div className="mt-16 flex flex-wrap justify-center gap-4">
-
-            {skills.map((skill) => (
+            {isLoading ? (
+              <p className="text-slate-400">Loading skills...</p>
+            ) : isError ? (
+              <p className="text-slate-400">Skills are temporarily unavailable.</p>
+            ) : skills.length === 0 ? (
+              <p className="text-slate-400">Skills will appear here as they are added.</p>
+            ) : skills.map((skill) => (
 
               <div
-                key={skill}
+                key={skill.id}
                 className="rounded-full border border-violet-500/20 bg-[#111827] px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-violet-500 hover:bg-violet-500/10"
               >
-                {skill}
+                {skill.name}
               </div>
 
             ))}

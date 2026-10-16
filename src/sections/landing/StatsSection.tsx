@@ -1,12 +1,14 @@
 import Container from "@/components/layout/Container";
 import { motion } from "framer-motion";
+import { useLandingStats } from "@/features/landing/hooks/useLandingData";
 
 export default function StatsSection() {
+  const { data } = useLandingStats();
   const stats = [
-    { value: "150+", label: "Expert Mentors" },
-    { value: "1200+", label: "Sessions Completed" },
-    { value: "40+", label: "Technologies" },
-    { value: "4.9★", label: "Average Rating" },
+    { value: data ? data.mentorCount.toLocaleString("en-IN") : "—", label: "Approved Mentors" },
+    { value: data ? data.completedSessionCount.toLocaleString("en-IN") : "—", label: "Sessions Completed" },
+    { value: data ? data.skillCount.toLocaleString("en-IN") : "—", label: "Skills" },
+    { value: data ? `${data.averageRating.toFixed(1)}★` : "—", label: "Average Rating" },
   ];
 
   return (

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Container from "@/components/layout/Container";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function CTASection() {
   return (
@@ -24,10 +25,11 @@ export default function CTASection() {
             </p>
 
             <Button
+              asChild
               size="lg"
               className="mt-10 bg-white text-violet-700 hover:bg-slate-100"
             >
-              Get Started
+              <Link to="/register">Get Started</Link>
             </Button>
 
           </div>

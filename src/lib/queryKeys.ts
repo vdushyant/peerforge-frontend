@@ -19,5 +19,10 @@ export const queryKeys = {
     mentor: (mentorId: number) => ["review", "mentor", mentorId] as const,
     moderation: (status: string) => ["review", "moderation", status] as const,
   },
+  landing: {
+    stats: ["landing", "stats"] as const,
+    skills: ["landing", "skills"] as const,
+    featuredReviews: ["landing", "featuredReviews"] as const,
+  },
 
 };
