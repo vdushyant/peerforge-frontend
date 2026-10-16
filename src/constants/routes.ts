@@ -16,6 +16,9 @@ export const APP_ROUTES = {
   ADMIN: {
     REVIEWS: "/admin/reviews",
     ANALYTICS: "/admin/analytics",
+    MENTORS: "/admin/mentors",
+    USERS: "/admin/users",
+    SESSIONS: "/admin/sessions",
   },
   SETTINGS: "/settings"
 };

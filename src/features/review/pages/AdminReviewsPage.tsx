@@ -4,11 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/features/auth/hooks/useAuth";
 import { useModerateReview, usePendingReviews } from "../hooks/useReviewQueries";
+import type { ReviewStatus } from "../types/review";
 
 export default function AdminReviewsPage() {
   const { user } = useAuth();
   const isAdmin = user?.roles.some((role) => role === "ADMIN" || role === "ROLE_ADMIN") ?? false;
-  const { data: reviews = [], isLoading, isError } = usePendingReviews("PENDING", isAdmin);
+  const [status, setStatus] = useState<ReviewStatus>("PENDING");
+  const { data: reviews = [], isLoading, isError } = usePendingReviews(status, isAdmin);
   const moderation = useModerateReview();
   const [reasons, setReasons] = useState<Record<number, string>>({});
 
@@ -23,12 +25,20 @@ export default function AdminReviewsPage() {
         <p className="mt-2 text-muted-foreground">Approve appropriate reviews so they appear on mentor profiles, or reject them with a reason.</p>
       </div>
 
+      <div className="flex flex-wrap gap-2" role="tablist" aria-label="Review status">
+        {(["PENDING", "APPROVED", "REJECTED"] as ReviewStatus[]).map((item) => (
+          <Button key={item} variant={status === item ? "default" : "outline"} onClick={() => setStatus(item)}>
+            {item === "PENDING" ? "Pending" : item === "APPROVED" ? "Approved" : "Rejected"}
+          </Button>
+        ))}
+      </div>
+
       {isLoading ? (
         <p className="text-muted-foreground">Loading pending reviews...</p>
       ) : isError ? (
         <p className="text-destructive">Unable to load pending reviews.</p>
       ) : reviews.length === 0 ? (
-        <p className="text-muted-foreground">There are no reviews waiting for moderation.</p>
+        <p className="text-muted-foreground">There are no {status.toLowerCase()} reviews.</p>
       ) : (
         <div className="space-y-4">
           {reviews.map((review) => (
@@ -45,7 +55,7 @@ export default function AdminReviewsPage() {
                 ) : (
                   <p className="text-sm italic text-muted-foreground">No written comment.</p>
                 )}
-                <label className="block space-y-1 text-sm font-medium">
+                {status === "PENDING" && <label className="block space-y-1 text-sm font-medium">
                   Rejection reason (required only when rejecting)
                   <Textarea
                     value={reasons[review.id] ?? ""}
@@ -53,11 +63,11 @@ export default function AdminReviewsPage() {
                     rows={2}
                     onChange={(event) => setReasons((current) => ({ ...current, [review.id]: event.target.value }))}
                   />
-                </label>
-                {(moderation.approve.isError || moderation.reject.isError) && (
+                </label>}
+                {status === "PENDING" && (moderation.approve.isError || moderation.reject.isError) && (
                   <p className="text-sm text-destructive">The moderation action failed. Refresh and try again.</p>
                 )}
-                <div className="flex flex-wrap gap-3">
+                {status === "PENDING" && <div className="flex flex-wrap gap-3">
                   <Button
                     disabled={moderation.approve.isPending || moderation.reject.isPending}
                     onClick={() => moderation.approve.mutate(review.id)}
@@ -71,7 +81,7 @@ export default function AdminReviewsPage() {
                   >
                     Reject
                   </Button>
-                </div>
+                </div>}
               </CardContent>
             </Card>
           ))}

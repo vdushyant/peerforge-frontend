@@ -21,6 +21,10 @@ export default function BecomeMentorCard() {
 
   const handleAction = () => {
     if (mentorProfile) {
+      if (mentorProfile.approvalStatus === "REJECTED") {
+        navigate(APP_ROUTES.MENTOR.BECOME);
+        return;
+      }
       navigate(APP_ROUTES.MENTOR.DASHBOARD);
       return;
     }
@@ -29,13 +33,14 @@ export default function BecomeMentorCard() {
   };
 
   const hasMentorProfile = Boolean(mentorProfile);
+  const isRejected = mentorProfile?.approvalStatus === "REJECTED";
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>
           {hasMentorProfile
-            ? "Mentor Dashboard"
+            ? isRejected ? "Update Mentor Application" : "Mentor Dashboard"
             : "Become a Mentor"}
         </CardTitle>
       </CardHeader>
@@ -43,7 +48,9 @@ export default function BecomeMentorCard() {
       <CardContent className="space-y-4">
         <p className="text-sm text-muted-foreground">
           {hasMentorProfile
-            ? "Manage your mentor profile and track your mentoring activity."
+            ? isRejected
+              ? `Your application was declined: ${mentorProfile?.rejectionReason ?? "Please update your application and try again."}`
+              : "Manage your mentor profile and track your mentoring activity."
             : "Share your knowledge, connect with learners and earn money through paid mentorship sessions."}
         </p>
 
@@ -54,7 +61,7 @@ export default function BecomeMentorCard() {
           {isLoading
             ? "Checking..."
             : hasMentorProfile
-              ? "Open Mentor Dashboard"
+              ? isRejected ? "Update Application" : "Open Mentor Dashboard"
               : "Become Mentor"}
         </Button>
       </CardContent>

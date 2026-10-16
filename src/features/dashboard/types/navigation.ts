@@ -55,6 +55,24 @@ export const dashboardNavigation: DashboardNavigationItem[] = [
     adminOnly: true,
   },
   {
+    label: "Mentor Applications",
+    to: "/admin/mentors",
+    icon: User,
+    adminOnly: true,
+  },
+  {
+    label: "Users",
+    to: "/admin/users",
+    icon: User,
+    adminOnly: true,
+  },
+  {
+    label: "Sessions",
+    to: "/admin/sessions",
+    icon: CalendarDays,
+    adminOnly: true,
+  },
+  {
     label: "Platform Analytics",
     to: "/admin/analytics",
     icon: ShieldCheck,

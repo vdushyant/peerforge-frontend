@@ -15,6 +15,7 @@ export interface MentorProfile {
   approvalStatus: ApprovalStatus;
   sessionsCompleted: number;
   averageRating: number;
+  rejectionReason?: string | null;
 }
 
 export interface UpdateMentorProfileRequest {

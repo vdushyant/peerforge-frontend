@@ -21,6 +21,8 @@ import MentorSessionsPage from "@/features/session/pages/MentorSessionsPage";
 import AdminReviewsPage from "@/features/review/pages/AdminReviewsPage";
 import NotificationsPage from "@/features/notifications/pages/NotificationsPage";
 import AdminAnalyticsPage from "@/features/dashboard/pages/AdminAnalyticsPage";
+import AdminMentorApplicationsPage from "@/features/admin/pages/AdminMentorApplicationsPage";
+import AdminDirectoryPage from "@/features/admin/pages/AdminDirectoryPage";
 import { APP_ROUTES } from "@/constants/routes";
 
 export default function AppRouter() {
@@ -98,6 +100,21 @@ export default function AppRouter() {
                         <Route
                             path={APP_ROUTES.ADMIN.ANALYTICS}
                             element={<AdminAnalyticsPage />}
+                        />
+
+                        <Route
+                            path={APP_ROUTES.ADMIN.MENTORS}
+                            element={<AdminMentorApplicationsPage />}
+                        />
+
+                        <Route
+                            path={APP_ROUTES.ADMIN.USERS}
+                            element={<AdminDirectoryPage initialView="users" />}
+                        />
+
+                        <Route
+                            path={APP_ROUTES.ADMIN.SESSIONS}
+                            element={<AdminDirectoryPage initialView="sessions" />}
                         />
 
                     </Route>

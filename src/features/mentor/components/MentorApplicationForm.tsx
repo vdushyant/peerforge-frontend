@@ -15,18 +15,20 @@ import { useApplyForMentorship } from "../hooks/useApplyForMentorship";
 
 interface MentorApplicationFormProps {
   onSuccess: () => void;
+  initialValues?: MentorApplicationFormValues;
 }
 
 export default function MentorApplicationForm({
   onSuccess,
+  initialValues,
 }: MentorApplicationFormProps) {
   const applyForMentorship = useApplyForMentorship();
 
   const form = useForm<MentorApplicationFormValues>({
     resolver: zodResolver(mentorApplicationSchema),
     defaultValues: {
-      about: "",
-      hourlyRate: undefined,
+      about: initialValues?.about ?? "",
+      hourlyRate: initialValues?.hourlyRate,
     },
   });
 
