@@ -60,10 +60,7 @@ export function AuthProvider({
 
   const register = useCallback(
     async (request: RegisterRequest) => {
-      const result = await registerUser(request);
-
-      setUser(result.profile);
-      setIsAuthenticated(true);
+      await registerUser(request);
     },
     []
   );

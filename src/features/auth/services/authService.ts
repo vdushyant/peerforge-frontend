@@ -29,13 +29,8 @@ export async function loginUser(
 
 export async function registerUser(
   request: RegisterRequest
-): Promise<AuthResult> {
-  const response = await registerApi(request);
-
-  return buildAuthResult(
-    response.accessToken,
-    response.refreshToken
-  );
+): Promise<void> {
+  await registerApi(request);
 }
 
 export async function restoreSession(): Promise<Profile | null> {

@@ -21,6 +21,10 @@ export interface AuthenticationResponse {
   refreshToken: string;
 }
 
+export interface MessageResponse {
+  message: string;
+}
+
 export interface AuthResult {
     accessToken: string;
     refreshToken: string;

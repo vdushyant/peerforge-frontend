@@ -5,6 +5,9 @@ import Navbar from "@/sections/landing/Navbar";
 import Footer from "@/sections/landing/Footer";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
+import VerifyEmailPage from "@/features/auth/pages/VerifyEmailPage";
+import ForgotPasswordPage from "@/features/auth/pages/ForgotPasswordPage";
+import ResetPasswordPage from "@/features/auth/pages/ResetPasswordPage";
 import DashboardPage from "../features/dashboard/pages/DashboardPage";
 import MentorListPage from "../features/mentor/pages/MentorListPage";
 import MySessionsPage from "../features/session/pages/MySessionsPage";
@@ -52,6 +55,10 @@ export default function AppRouter() {
                         element={<RegisterPage />}
                     />
                 </Route>
+
+                <Route path={APP_ROUTES.VERIFY_EMAIL} element={<VerifyEmailPage />} />
+                <Route path={APP_ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+                <Route path={APP_ROUTES.RESET_PASSWORD} element={<ResetPasswordPage />} />
 
                 <Route element={<ProtectedRoute />}>
 

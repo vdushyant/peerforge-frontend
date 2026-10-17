@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,13 +17,12 @@ import { useAuth } from "../hooks/useAuth";
 import { toast } from "sonner";
 
 export default function RegisterForm() {
-  const navigate = useNavigate();
-
   const { register: registerUser } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [registrationSubmitted, setRegistrationSubmitted] = useState(false);
 
   const {
     register,
@@ -51,14 +50,32 @@ export default function RegisterForm() {
         password: data.password,
       });
 
-      toast.success("Account created successfully!");
-
-      navigate("/dashboard");
+      setRegistrationSubmitted(true);
+      toast.success("Verification link sent.");
     } catch {
-      toast.error("Registration failed.");
+      toast.error("Registration could not be completed. Check your details and try again.");
     } finally {
       setIsSubmitting(false);
     }
+  }
+
+  if (registrationSubmitted) {
+    return (
+      <div className="space-y-5 text-center" role="status">
+        <div className="space-y-2">
+          <h2 className="text-xl font-semibold text-white">Check your email</h2>
+          <p className="text-sm text-slate-400">
+            We sent a verification link if the account could be created. Verify your address before signing in.
+          </p>
+        </div>
+        <Link to="/verify-email" className="block text-sm font-medium text-violet-400 hover:text-violet-300">
+          Didn’t receive it? Resend the verification email
+        </Link>
+        <Link to="/login" className="block text-sm text-slate-300 hover:text-white">
+          Return to sign in
+        </Link>
+      </div>
+    );
   }
 
   return (

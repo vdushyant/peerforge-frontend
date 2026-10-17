@@ -3,6 +3,7 @@ import type {
   AuthenticationResponse,
   LoginRequest,
   LogoutRequest,
+  MessageResponse,
   RegisterRequest,
 } from "../types/auth";
 
@@ -34,7 +35,7 @@ export async function logoutApi(
 
 export async function registerApi(
   request: RegisterRequest
-): Promise<AuthenticationResponse> {
+): Promise<MessageResponse> {
 
   const { data } =
     await axiosInstance.post(
@@ -42,6 +43,29 @@ export async function registerApi(
       request
     );
 
+  return data;
+}
+
+export async function verifyEmailApi(token: string): Promise<MessageResponse> {
+  const { data } = await axiosInstance.post("/auth/verify-email", { token });
+  return data;
+}
+
+export async function resendVerificationApi(email: string): Promise<MessageResponse> {
+  const { data } = await axiosInstance.post("/auth/resend-verification", { email });
+  return data;
+}
+
+export async function requestPasswordResetApi(email: string): Promise<MessageResponse> {
+  const { data } = await axiosInstance.post("/auth/forgot-password", { email });
+  return data;
+}
+
+export async function resetPasswordApi(
+  token: string,
+  newPassword: string
+): Promise<MessageResponse> {
+  const { data } = await axiosInstance.post("/auth/reset-password", { token, newPassword });
   return data;
 }
 
