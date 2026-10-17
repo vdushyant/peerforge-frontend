@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import AddAvailabilityForm from "./AddAvailabilityForm";
 import { Trash2 } from "lucide-react";
 import { useDeleteAvailability } from "../hooks/useDeleteAvailability";
+import { CalendarClock } from "lucide-react";
 
 function formatDay(day: string) {
   return day.charAt(0) + day.slice(1).toLowerCase();
@@ -29,9 +30,9 @@ export default function MentorAvailabilityCard() {
 
   if (isLoading) {
     return (
-      <Card>
+      <Card className="border-0 bg-[#0e171c] text-white ring-1 ring-inset ring-white/[0.08]">
         <CardHeader>
-          <CardTitle>Availability</CardTitle>
+          <CardTitle className="font-semibold tracking-tight">Availability</CardTitle>
         </CardHeader>
 
         <CardContent>
@@ -45,7 +46,7 @@ export default function MentorAvailabilityCard() {
 
   if (isError) {
     return (
-      <Card>
+      <Card className="border-0 bg-[#0e171c] text-white ring-1 ring-inset ring-white/[0.08]">
         <CardHeader>
           <CardTitle>Availability</CardTitle>
         </CardHeader>
@@ -66,9 +67,12 @@ export default function MentorAvailabilityCard() {
   }
 
   return (
-    <Card>
+    <Card className="border-0 bg-[#0e171c] text-white ring-1 ring-inset ring-white/[0.08]">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Availability</CardTitle>
+        <div className="flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-200/[0.07] text-emerald-100"><CalendarClock className="h-4 w-4" /></div>
+          <CardTitle className="font-semibold tracking-tight">Availability</CardTitle>
+        </div>
 
         {!isAdding && (
           <Button
@@ -89,15 +93,16 @@ export default function MentorAvailabilityCard() {
         ) : (
           <>
             {availability.length === 0 ? (
-              <p className="text-sm text-muted-foreground">
-                You haven't added any availability yet.
-              </p>
+              <div className="rounded-2xl border border-dashed border-white/[0.09] bg-white/[0.015] px-5 py-8 text-center">
+                <p className="font-medium text-slate-200">Set your weekly availability</p>
+                <p className="mt-1 text-sm text-slate-400">Learners can only book time slots you make available.</p>
+              </div>
             ) : (
               <div className="space-y-3">
                 {availability.map((slot) => (
                   <div
                     key={slot.id}
-                    className="flex items-center justify-between rounded-lg border p-4"
+                    className="flex items-center justify-between rounded-2xl border border-white/[0.07] bg-white/[0.02] p-4"
                   >
                     <div>
                       <p className="font-medium">

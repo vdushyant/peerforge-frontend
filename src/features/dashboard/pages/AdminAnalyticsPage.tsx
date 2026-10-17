@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Activity, Banknote, CalendarDays, CheckCircle2, Clock3, MessageSquareText, Users } from "lucide-react";
+import { Activity, Banknote, CalendarDays, CheckCircle2, Clock3, MessageSquareText, Users, ChartNoAxesCombined } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { APP_ROUTES } from "@/constants/routes";
@@ -34,25 +34,28 @@ export default function AdminAnalyticsPage() {
   ];
 
   return (
-    <section className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-semibold">Platform analytics</h2>
-        <p className="mt-2 text-sm text-muted-foreground">Operational totals and recent booking activity.</p>
+    <section className="mx-auto max-w-6xl space-y-7 py-2 sm:py-5">
+      <div className="flex items-start gap-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-emerald-100/10 bg-emerald-200/[0.07] text-emerald-100"><ChartNoAxesCombined className="h-5 w-5" /></div>
+        <div>
+        <h2 className="text-2xl font-semibold tracking-tight">Platform analytics</h2>
+        <p className="mt-2 text-sm text-slate-400">Operational totals and recent booking activity.</p>
+        </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {metrics.map(({ label, value, icon: Icon }) => (
-          <Card key={label}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{label}</CardTitle>
-              <Icon className="size-4 text-muted-foreground" />
+          <Card key={label} className="relative overflow-hidden border-0 bg-[radial-gradient(ellipse_at_100%_0%,rgba(55,211,157,0.08),transparent_45%),#0e171c] text-white ring-1 ring-inset ring-white/[0.08]">
+            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+              <CardTitle className="max-w-[75%] text-sm font-medium leading-5 text-slate-400">{label}</CardTitle>
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-200/[0.07] text-emerald-100"><Icon className="size-4" /></span>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-semibold">{value}</p>
+              <p className="text-3xl font-semibold tracking-tight text-white">{value}</p>
             </CardContent>
           </Card>
         ))}
       </div>
-      <p className="text-xs text-muted-foreground">
+      <p className="text-xs leading-5 text-slate-500">
         Payment total includes successful, non-refunded payments and does not represent mentor payouts.
       </p>
       <Button variant="outline" onClick={() => navigate(APP_ROUTES.ADMIN.REVIEWS)}>

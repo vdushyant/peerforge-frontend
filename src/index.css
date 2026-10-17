@@ -7,7 +7,47 @@ html {
 }
 
 body {
-  background: #0B0F19;
+  min-width: 320px;
+  background: #080d13;
   color: #F9FAFB;
-  font-family: Inter, sans-serif;
+  font-family: "Inter Variable", Inter, sans-serif;
+  font-feature-settings: "ss01" on;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgb(76 222 168 / 28%);
+  color: #f7fff9;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid #5ce0aa;
+  outline-offset: 3px;
+}
+
+* {
+  scrollbar-color: rgb(148 163 184 / 30%) transparent;
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgb(148 163 184 / 30%);
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(110 231 183 / 55%);
+  background-clip: padding-box;
 }

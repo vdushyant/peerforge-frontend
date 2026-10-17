@@ -4,7 +4,7 @@ import { useLandingStats } from "@/features/landing/hooks/useLandingData";
 export default function HeroStats() {
   const { data } = useLandingStats();
   return (
-    <div className="mt-14 flex flex-wrap gap-12">
+    <div className="mt-12 flex flex-wrap gap-x-10 gap-y-5 border-t border-white/10 pt-7">
 
       <Statistic
         value={data ? data.mentorCount.toLocaleString("en-IN") : "—"}

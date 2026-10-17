@@ -20,7 +20,7 @@ export default function StatsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="grid grid-cols-2 gap-8 rounded-3xl border border-white/10 bg-[#111827] p-12 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-9 rounded-[1.75rem] border border-white/[0.08] bg-gradient-to-br from-[#111b20] to-[#0d141b] p-7 sm:p-10 lg:grid-cols-4">
 
             {stats.map((stat) => (
 
@@ -29,7 +29,7 @@ export default function StatsSection() {
                 className="text-center"
               >
 
-                <h2 className="text-4xl font-bold text-violet-400">
+                <h2 className="text-3xl font-semibold tracking-tight text-emerald-200 sm:text-4xl">
                   {stat.value}
                 </h2>
 

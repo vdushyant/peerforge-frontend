@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import App from "./App";
 import "./index.css";
+import "@fontsource-variable/inter/index.css";
 
 import { queryClient } from "@/config/queryClient";
 import { AuthProvider } from "@/features/auth/context/AuthProvider";

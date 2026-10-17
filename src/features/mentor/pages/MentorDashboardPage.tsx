@@ -12,6 +12,7 @@ import MentorProfileForm from "../components/MentorProfileForm";
 import { useMyMentorProfile } from "../hooks/useMyMentorProfile";
 import MentorAvailabilityCard from "../components/MentorAvailabilityCard";
 import { useMentorDashboardAnalytics } from "@/features/dashboard/hooks/useDashboardAnalytics";
+import { GraduationCap } from "lucide-react";
 
 export default function MentorDashboardPage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -25,8 +26,8 @@ export default function MentorDashboardPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6">
-        <p className="text-muted-foreground">
+      <div className="py-8">
+        <p className="text-sm text-slate-400" role="status">
           Loading mentor profile...
         </p>
       </div>
@@ -35,8 +36,8 @@ export default function MentorDashboardPage() {
 
   if (isError || !mentorProfile) {
     return (
-      <div className="p-6">
-        <p className="text-destructive">
+      <div className="py-8">
+        <p className="text-sm text-rose-300" role="alert">
           Unable to load your mentor profile.
         </p>
       </div>
@@ -44,15 +45,18 @@ export default function MentorDashboardPage() {
   }
 
   return (
-    <div className="space-y-6 p-6">
-      <div>
-        <h1 className="text-3xl font-semibold">
+    <div className="mx-auto max-w-6xl space-y-7 py-2 sm:py-5">
+      <div className="flex items-start gap-4">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-emerald-100/10 bg-emerald-200/[0.07] text-emerald-100"><GraduationCap className="h-5 w-5" /></div>
+        <div>
+        <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
           Mentor Dashboard
         </h1>
 
-        <p className="mt-2 text-muted-foreground">
+        <p className="mt-2 text-sm leading-6 text-slate-400">
           Manage your mentor profile and track your mentoring activity.
         </p>
+        </div>
       </div>
 
       <Card>
@@ -61,7 +65,7 @@ export default function MentorDashboardPage() {
         </CardHeader>
 
         <CardContent>
-          <p className="font-medium">
+          <p className="inline-flex rounded-full border border-emerald-100/10 bg-emerald-200/[0.07] px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-emerald-100">
             {mentorProfile.approvalStatus}
           </p>
         </CardContent>
@@ -69,7 +73,7 @@ export default function MentorDashboardPage() {
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Mentor Profile</CardTitle>
+          <CardTitle className="font-semibold tracking-tight">Mentor Profile</CardTitle>
 
           {!isEditing && (
             <Button
@@ -105,7 +109,7 @@ export default function MentorDashboardPage() {
                   Hourly Rate
                 </p>
 
-                <p className="mt-1 text-2xl font-semibold">
+                <p className="mt-1 text-2xl font-semibold text-emerald-100">
                   ₹{mentorProfile.hourlyRate}
                 </p>
               </div>
@@ -115,7 +119,7 @@ export default function MentorDashboardPage() {
       </Card>
 
       <div>
-        <h2 className="mb-3 text-xl font-semibold">Activity overview</h2>
+        <h2 className="mb-3 text-xl font-semibold tracking-tight">Activity overview</h2>
         {analytics.isError && (
           <p className="mb-3 text-sm text-destructive">Activity metrics could not be loaded.</p>
         )}
@@ -142,12 +146,12 @@ export default function MentorDashboardPage() {
 
 function MetricCard({ title, value }: { title: string; value: string | number }) {
   return (
-    <Card>
+    <Card className="border-0 bg-[#0e171c] text-white ring-1 ring-inset ring-white/[0.08]">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        <CardTitle className="text-sm font-medium text-slate-400">{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-2xl font-semibold">{value}</p>
+        <p className="text-2xl font-semibold tracking-tight text-white">{value}</p>
       </CardContent>
     </Card>
   );

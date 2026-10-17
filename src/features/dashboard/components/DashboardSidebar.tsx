@@ -29,17 +29,17 @@ export default function DashboardSidebar() {
   );
 
   return (
-    <aside className="flex w-64 flex-col border-r border-white/10 bg-[#0B0F19]">
+    <aside className="sticky top-0 flex h-screen w-64 shrink-0 flex-col border-r border-white/[0.07] bg-[#090f14]">
 
       {/* Logo */}
 
-      <div className="border-b border-white/10 p-6">
+        <div className="border-b border-white/[0.07] px-5 py-5">
         <Logo />
       </div>
 
       {/* Navigation */}
 
-      <nav className="flex flex-1 flex-col gap-2 p-4">
+      <nav className="flex flex-1 flex-col gap-1.5 overflow-y-auto p-3">
 
         {roleFilteredNavigation.map((item) => {
           const Icon = item.icon;
@@ -50,12 +50,12 @@ export default function DashboardSidebar() {
               to={item.to}
               className={({ isActive }) =>
                 `
-                flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all
+                flex items-center gap-3 rounded-xl px-3.5 py-3 text-[13px] font-medium transition-all
 
                 ${
                   isActive
-                    ? "bg-violet-600 text-white"
-                    : "text-slate-300 hover:bg-white/5 hover:text-white"
+                    ? "bg-emerald-300/[0.12] text-emerald-100 ring-1 ring-inset ring-emerald-200/10"
+                    : "text-slate-400 hover:bg-white/[0.045] hover:text-white"
                 }
                 `
               }
@@ -71,12 +71,12 @@ export default function DashboardSidebar() {
 
       {/* Logout */}
 
-      <div className="border-t border-white/10 p-4">
+      <div className="border-t border-white/[0.07] p-3">
 
         <Button
           variant="ghost"
           onClick={logout}
-          className="w-full justify-start gap-3 text-slate-300 hover:text-white"
+          className="w-full justify-start gap-3 rounded-xl text-slate-400 hover:bg-rose-400/[0.07] hover:text-rose-200"
         >
           <LogOut size={18} />
 

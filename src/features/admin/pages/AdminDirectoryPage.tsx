@@ -18,19 +18,20 @@ export default function AdminDirectoryPage({ initialView }: { initialView: Direc
   const users = useAdminUsers(page, view === "users");
   const sessions = useAdminSessions(page, view === "sessions");
 
-  if (!isAdmin) return <p className="text-destructive">You do not have access to admin directories.</p>;
+  if (!isAdmin) return <p className="rounded-2xl border border-rose-200/10 bg-rose-300/[0.04] p-5 text-sm text-rose-200">You do not have access to admin directories.</p>;
 
   const result = view === "users" ? users.data : sessions.data;
   const loading = view === "users" ? users.isLoading : sessions.isLoading;
   const failed = view === "users" ? users.isError : sessions.isError;
 
   return (
-    <section className="space-y-6">
+    <section className="mx-auto max-w-6xl space-y-7 py-2 sm:py-5">
       <div>
-        <h1 className="text-3xl font-semibold">Admin directories</h1>
-        <p className="mt-2 text-muted-foreground">Read-only paginated views of registered accounts and session activity.</p>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-200/75">Administration</p>
+        <h1 className="mt-1 text-2xl font-semibold tracking-tight sm:text-3xl">Admin directories</h1>
+        <p className="mt-2 text-sm leading-6 text-slate-400">Read-only paginated views of registered accounts and session activity.</p>
       </div>
-      <div className="flex gap-2">
+      <div className="flex w-fit gap-2 rounded-2xl border border-white/[0.07] bg-white/[0.02] p-2">
         <Button variant={view === "users" ? "default" : "outline"} onClick={() => { setView("users"); setPage(0); }}>Users</Button>
         <Button variant={view === "sessions" ? "default" : "outline"} onClick={() => { setView("sessions"); setPage(0); }}>Sessions</Button>
       </div>
@@ -39,7 +40,7 @@ export default function AdminDirectoryPage({ initialView }: { initialView: Direc
        failed ? <p className="text-destructive">The {view} directory could not be loaded.</p> :
        view === "users" ? (
         <div className="space-y-3">
-          {(users.data?.content ?? []).length === 0 ? <p className="text-muted-foreground">No users found.</p> : (users.data?.content ?? []).map((entry) => (
+          {(users.data?.content ?? []).length === 0 ? <p className="rounded-2xl border border-dashed border-white/[0.09] p-8 text-center text-sm text-slate-400">No users found.</p> : (users.data?.content ?? []).map((entry) => (
             <Card key={entry.id}><CardContent className="flex flex-wrap items-center justify-between gap-3 p-4">
               <div><p className="font-medium">{entry.firstName} {entry.lastName}</p><p className="text-sm text-muted-foreground">{entry.email}</p></div>
               <div className="text-right text-sm"><p>{entry.roles.join(", ")}</p><p className="text-muted-foreground">{entry.accountStatus} · joined {new Date(entry.createdAt).toLocaleDateString()}</p></div>
@@ -48,7 +49,7 @@ export default function AdminDirectoryPage({ initialView }: { initialView: Direc
         </div>
       ) : (
         <div className="space-y-3">
-          {(sessions.data?.content ?? []).length === 0 ? <p className="text-muted-foreground">No sessions found.</p> : (sessions.data?.content ?? []).map((entry) => (
+          {(sessions.data?.content ?? []).length === 0 ? <p className="rounded-2xl border border-dashed border-white/[0.09] p-8 text-center text-sm text-slate-400">No sessions found.</p> : (sessions.data?.content ?? []).map((entry) => (
             <Card key={entry.id}><CardContent className="flex flex-wrap items-center justify-between gap-3 p-4">
               <div><p className="font-medium">{entry.clientName} with {entry.mentorName}</p><p className="text-sm text-muted-foreground">{new Date(entry.startDateTime).toLocaleString()} – {new Date(entry.endDateTime).toLocaleTimeString()}</p></div>
               <div className="text-right text-sm"><p>{entry.status}</p><p className="text-muted-foreground">Payment: {entry.paymentStatus ?? "not created"}</p></div>

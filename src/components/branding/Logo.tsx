@@ -2,19 +2,19 @@ export default function Logo() {
   return (
     <div className="flex items-center gap-3">
 
-      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-500 shadow-lg shadow-violet-500/20">
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-200 to-teal-500 shadow-lg shadow-emerald-950/40">
 
-        <span className="text-xl font-black text-white">
+        <span className="text-lg font-black text-slate-950">
           P
         </span>
 
       </div>
 
-      <span className="text-3xl font-bold tracking-tight">
+      <span className="text-2xl font-semibold tracking-[-0.045em] text-white">
 
         Peer
 
-        <span className="bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
+        <span className="text-emerald-200">
           Forge
         </span>
 

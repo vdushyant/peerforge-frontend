@@ -10,7 +10,7 @@ export default function FeaturedMentorsSection() {
   const { data: mentors = [], isLoading, isError } = useMentors();
 
   return (
-    <section className="py-24">
+    <section id="featured-mentors" className="py-24 sm:py-28">
       <Container>
         <motion.section
           initial={{ opacity: 0, y: 40 }}

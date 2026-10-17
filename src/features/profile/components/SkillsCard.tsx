@@ -19,9 +19,9 @@ export default function SkillsCard({
   const skills = getValues("skills");
 
   return (
-    <div className="rounded-xl border border-white/10 bg-card p-6">
+    <div className="relative overflow-hidden rounded-[1.35rem] border-0 bg-[#0e171c] p-6 shadow-lg shadow-black/10 ring-1 ring-inset ring-white/[0.08]">
 
-      <h3 className="mb-5 text-lg font-semibold">
+      <h3 className="mb-5 text-lg font-semibold tracking-tight">
         Skills
       </h3>
 
@@ -56,7 +56,7 @@ export default function SkillsCard({
 
                 <span
                   key={skill}
-                  className="rounded-full bg-violet-600/15 px-4 py-2 text-sm font-medium text-violet-400"
+                  className="rounded-full border border-emerald-100/10 bg-emerald-200/[0.07] px-4 py-2 text-sm font-medium text-emerald-100"
                 >
                   {skill}
                 </span>

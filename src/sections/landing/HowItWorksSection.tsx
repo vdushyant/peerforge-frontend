@@ -26,7 +26,7 @@ const steps = [
 
 export default function HowItWorksSection() {
   return (
-    <section className="py-24">
+    <section id="how-it-works" className="border-y border-white/[0.05] bg-white/[0.015] py-24 sm:py-28">
 
       <Container>
         <motion.section
@@ -41,7 +41,7 @@ export default function HowItWorksSection() {
           description="PeerForge makes finding the right mentor simple and efficient."
         />
 
-        <div className="mt-16 grid gap-8 lg:grid-cols-3">
+        <div className="mt-14 grid gap-4 lg:grid-cols-3">
 
           {steps.map((step) => {
 
@@ -51,16 +51,18 @@ export default function HowItWorksSection() {
 
               <div
                 key={step.title}
-                className="rounded-3xl border border-white/10 bg-[#111827] p-8 transition hover:border-violet-500/30 hover:-translate-y-2"
+                className="group rounded-[1.65rem] border border-white/[0.08] bg-[#0d141b] p-8 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200/25 hover:bg-[#101a20]"
               >
 
-                <Icon className="h-10 w-10 text-violet-400" />
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-200/15 bg-emerald-300/[0.08]">
+                  <Icon className="h-5 w-5 text-emerald-200" />
+                </div>
 
-                <h3 className="mt-6 text-2xl font-semibold">
+                <h3 className="mt-7 text-xl font-semibold tracking-tight">
                   {step.title}
                 </h3>
 
-                <p className="mt-4 text-slate-400">
+                <p className="mt-3 leading-7 text-slate-400">
                   {step.description}
                 </p>
 

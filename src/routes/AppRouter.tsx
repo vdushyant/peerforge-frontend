@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import LandingPage from "../LandingPage";
-import Navbar from "@/sections/landing/Navbar";
-import Footer from "@/sections/landing/Footer";
 import LoginPage from "../features/auth/pages/LoginPage";
 import RegisterPage from "../features/auth/pages/RegisterPage";
 import VerifyEmailPage from "@/features/auth/pages/VerifyEmailPage";
@@ -17,6 +15,7 @@ import NotFoundPage from "../NotFoundPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import GuestRoute from "./GuestRoute";
 import DashboardLayout from "@/layouts/DashboardLayout";
+import MentorRouteLayout from "@/layouts/MentorRouteLayout";
 import BecomeMentorPage from "@/features/mentor/pages/BecomeMentorPage";
 import MentorDashboardPage from "@/features/mentor/pages/MentorDashboardPage";
 import MentorDetailPage from "@/features/mentor/pages/MentorDetailPage";
@@ -35,14 +34,10 @@ export default function AppRouter() {
 
                 <Route path="/" element={<LandingPage />} />
 
-                <Route
-                    path={APP_ROUTES.MENTORS}
-                    element={<><Navbar /><MentorListPage /><Footer /></>}
-                />
-                <Route
-                    path={APP_ROUTES.MENTOR.DETAIL}
-                    element={<><Navbar /><MentorDetailPage /><Footer /></>}
-                />
+                <Route path={APP_ROUTES.MENTORS} element={<MentorRouteLayout />}>
+                    <Route index element={<MentorListPage />} />
+                    <Route path=":mentorId" element={<MentorDetailPage />} />
+                </Route>
 
                 <Route element={<GuestRoute />}>
                     <Route

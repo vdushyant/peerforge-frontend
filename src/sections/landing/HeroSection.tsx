@@ -8,9 +8,10 @@ import { motion } from "framer-motion";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden py-24">
+    <section id="home" className="relative isolate overflow-hidden py-20 sm:py-28">
 
-      <div className="absolute left-1/2 top-0 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-violet-600/20 blur-[180px]" />
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_68%_34%,rgba(32,175,133,0.15),transparent_38%),radial-gradient(ellipse_at_12%_4%,rgba(82,109,255,0.10),transparent_34%)]" />
+      <div className="pointer-events-none absolute right-[12%] top-16 -z-10 h-72 w-72 rounded-full bg-emerald-400/10 blur-[110px]" />
 
       <Container>
 
@@ -23,7 +24,7 @@ export default function HeroSection() {
 
           {/* Left Side */}
 
-          <div className="grid items-center gap-16 lg:grid-cols-2">
+          <div className="grid items-center gap-16 lg:grid-cols-[1.05fr_0.95fr]">
 
             <div>
 

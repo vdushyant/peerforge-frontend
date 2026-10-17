@@ -25,6 +25,12 @@ const TITLES: Record<string, string> = {
   "/sessions": "My Sessions",
   "/notifications": "Notifications",
   "/settings": "Settings",
+  "/mentor/sessions": "Incoming Sessions",
+  "/admin/reviews": "Review Moderation",
+  "/admin/mentors": "Mentor Applications",
+  "/admin/users": "Users",
+  "/admin/sessions": "Sessions",
+  "/admin/analytics": "Platform Analytics",
 };
 
 export default function DashboardNavbar() {
@@ -38,9 +44,9 @@ export default function DashboardNavbar() {
     : "U";
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-white/10 bg-background px-6">
+    <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-white/[0.07] bg-[#080d13]/90 px-5 backdrop-blur-xl sm:px-8">
 
-      <h1 className="text-xl font-semibold">
+      <h1 className="text-lg font-semibold tracking-tight text-slate-100">
         {TITLES[pathname] ?? "PeerForge"}
       </h1>
 
@@ -52,7 +58,7 @@ export default function DashboardNavbar() {
           >
             <Bell />
             {!!inbox?.unreadCount && (
-              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-violet-600 px-1 text-[10px] text-white">
+              <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-300 px-1 text-[10px] font-semibold text-slate-950">
                 {inbox.unreadCount > 99 ? "99+" : inbox.unreadCount}
               </span>
             )}
@@ -69,7 +75,7 @@ export default function DashboardNavbar() {
           >
             <Avatar>
 
-              <AvatarFallback>
+              <AvatarFallback className="bg-emerald-200/[0.12] font-semibold text-emerald-100 ring-1 ring-inset ring-emerald-100/15">
                 {initials}
               </AvatarFallback>
 

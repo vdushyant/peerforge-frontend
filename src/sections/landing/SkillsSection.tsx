@@ -6,7 +6,7 @@ import { useLandingSkills } from "@/features/landing/hooks/useLandingData";
 export default function SkillsSection() {
   const { data: skills = [], isLoading, isError } = useLandingSkills();
   return (
-    <section className="py-24">
+    <section id="popular-skills" className="py-24 sm:py-28">
 
       <Container>
 
@@ -33,7 +33,7 @@ export default function SkillsSection() {
 
               <div
                 key={skill.id}
-                className="rounded-full border border-violet-500/20 bg-[#111827] px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-violet-500 hover:bg-violet-500/10"
+                className="rounded-full border border-white/10 bg-white/[0.035] px-5 py-2.5 text-sm text-slate-200 transition-all duration-300 hover:-translate-y-0.5 hover:border-emerald-200/30 hover:bg-emerald-300/[0.08] hover:text-emerald-100"
               >
                 {skill.name}
               </div>

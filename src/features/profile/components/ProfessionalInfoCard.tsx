@@ -24,9 +24,9 @@ export default function ProfessionalInfoCard({
   } = useFormContext<ProfileFormValues>();
 
   return (
-    <div className="rounded-xl border border-white/10 bg-card p-6">
+    <div className="relative overflow-hidden rounded-[1.35rem] border-0 bg-[#0e171c] p-6 shadow-lg shadow-black/10 ring-1 ring-inset ring-white/[0.08]">
 
-      <h3 className="mb-6 text-lg font-semibold">
+      <h3 className="mb-6 text-lg font-semibold tracking-tight">
         Professional Information
       </h3>
 
@@ -65,7 +65,7 @@ export default function ProfessionalInfoCard({
 
         <div className="flex items-start gap-3">
 
-          <Briefcase className="mt-2 h-5 w-5 text-violet-400" />
+          <Briefcase className="mt-2 h-5 w-5 text-emerald-200" />
 
           <div className="flex-1">
 
@@ -101,7 +101,7 @@ export default function ProfessionalInfoCard({
 
         <div className="flex items-start gap-3">
 
-          <Globe className="mt-2 h-5 w-5 text-violet-400" />
+          <Globe className="mt-2 h-5 w-5 text-emerald-200" />
 
           <div className="flex-1">
 
@@ -138,7 +138,7 @@ export default function ProfessionalInfoCard({
 
         <div className="flex items-start gap-3">
 
-          <Link className="mt-2 h-5 w-5 text-violet-400" />
+          <Link className="mt-2 h-5 w-5 text-emerald-200" />
 
           <div className="flex-1">
 

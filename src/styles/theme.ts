@@ -2,25 +2,25 @@ export const theme = {
 
     colors: {
 
-        background: "#0B0F19",
+        background: "#080D13",
 
         surface: "#111827",
 
         surfaceElevated: "#161D2D",
 
-        primary: "#7C3AED",
+        primary: "#6EE7B7",
 
-        primaryLight: "#A78BFA",
+        primaryLight: "#A7F3D0",
 
-        secondary: "#3B82F6",
+        secondary: "#67E8F9",
 
-        accent: "#06B6D4",
+        accent: "#5EEAD4",
 
         text: "#F9FAFB",
 
         muted: "#9CA3AF",
 
-        border: "#243044",
+        border: "#26353A",
 
     },
 

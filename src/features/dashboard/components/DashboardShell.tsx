@@ -5,7 +5,7 @@ import UpcomingSessionsCard from "../cards/UpcomingSessionsCard";
 
 export default function DashboardShell() {
   return (
-    <div className="space-y-6">
+    <div className="mx-auto max-w-7xl space-y-5 py-2 sm:py-4">
 
       <WelcomeCard />
 

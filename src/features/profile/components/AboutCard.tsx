@@ -18,9 +18,9 @@ export default function AboutCard({
   } = useFormContext<ProfileFormValues>();
 
   return (
-    <div className="rounded-xl border border-white/10 bg-card p-6">
+    <div className="relative overflow-hidden rounded-[1.35rem] border-0 bg-[#0e171c] p-6 shadow-lg shadow-black/10 ring-1 ring-inset ring-white/[0.08]">
 
-      <h3 className="mb-4 text-lg font-semibold">
+      <h3 className="mb-4 text-lg font-semibold tracking-tight">
         About
       </h3>
 
