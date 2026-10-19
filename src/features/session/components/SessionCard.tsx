@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useCancelSession } from "../hooks/useCancelSession";
 import SessionReviewPanel from "@/features/review/components/SessionReviewPanel";
 import { CalendarDays, Clock3, UserRound } from "lucide-react";
+import SessionConversationPanel from "./SessionConversationPanel";
 
 interface SessionCardProps {
   session: Session;
@@ -100,6 +101,9 @@ export default function SessionCard({
               </Button>
             )}
         </div>
+        {(session.status === "CONFIRMED" || session.status === "COMPLETED") && session.paymentStatus === "SUCCESS" && (
+          <SessionConversationPanel session={session} isMentor={false} />
+        )}
         {session.status === "COMPLETED" && (
           <SessionReviewPanel sessionId={session.id} />
         )}

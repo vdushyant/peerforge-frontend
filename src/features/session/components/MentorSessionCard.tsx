@@ -7,10 +7,10 @@ import {
 
 import type { Session } from "../types/session";
 import { Button } from "@/components/ui/button";
-import { useConfirmSession } from "../hooks/useConfirmSession";
 import { useCancelSession } from "../hooks/useCancelSession";
 import { useCompleteSession } from "../hooks/useCompleteSession";
 import { CalendarDays, Clock3, UserRound } from "lucide-react";
+import SessionConversationPanel from "./SessionConversationPanel";
 
 
 interface MentorSessionCardProps {
@@ -42,7 +42,6 @@ function formatTime(dateTime: string) {
 export default function MentorSessionCard({
   session,
 }: MentorSessionCardProps) {
-  const confirmSession = useConfirmSession();
   const cancelSession = useCancelSession();
   const completeSession = useCompleteSession();
   return (
@@ -90,38 +89,21 @@ export default function MentorSessionCard({
           </p>
         </div>
         {session.status === "PENDING" && (
-          <div className="flex gap-3">
-            <Button
-              className="flex-1 rounded-xl"
-              disabled={
-                confirmSession.isPending ||
-                cancelSession.isPending
-              }
-              onClick={() =>
-                confirmSession.mutate(session.id)
-              }
-            >
-              {confirmSession.isPending
-                ? "Confirming..."
-                : "Confirm"}
-            </Button>
-
+          <div className="space-y-3">
+            <p className="text-xs text-amber-200/80">Waiting for the client to complete payment. The session confirms automatically after payment.</p>
             <Button
               variant="outline"
-              className="flex-1 rounded-xl"
-              disabled={
-                confirmSession.isPending ||
-                cancelSession.isPending
-              }
-              onClick={() =>
-                cancelSession.mutate(session.id)
-              }
+              className="w-full rounded-xl"
+              disabled={cancelSession.isPending}
+              onClick={() => cancelSession.mutate(session.id)}
             >
-              {cancelSession.isPending
-                ? "Cancelling..."
-                : "Cancel"}
+              {cancelSession.isPending ? "Cancelling..." : "Cancel"}
             </Button>
           </div>
+        )}
+
+        {(session.status === "CONFIRMED" || session.status === "COMPLETED") && session.paymentStatus === "SUCCESS" && (
+          <SessionConversationPanel session={session} isMentor />
         )}
 
         {session.status === "CONFIRMED" && (

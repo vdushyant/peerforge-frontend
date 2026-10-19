@@ -130,12 +130,16 @@ export default function MentorDashboardPage() {
           <MetricCard title="Approved reviews" value={analytics.data?.approvedReviewCount ?? "—"} />
           <MetricCard title="Average rating" value={analytics.data?.averageRating.toFixed(1) ?? "—"} />
           <MetricCard
-            title="Gross successful payments"
+            title="Client payments processed"
             value={analytics.data ? new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(analytics.data.grossSuccessfulPayments) : "—"}
+          />
+          <MetricCard
+            title="Payouts awaiting setup"
+            value={analytics.data ? new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(analytics.data.pendingPayouts) : "—"}
           />
         </div>
         <p className="mt-3 text-xs text-muted-foreground">
-          Gross successful payments are client payments recorded by PeerForge; mentor payouts are not included.
+          Client payment totals include the PeerForge fee. Payouts are tracked at the mentor’s listed session price; transfers will begin after PeerForge enables Razorpay Route and your payout account is linked.
         </p>
       </div>
       

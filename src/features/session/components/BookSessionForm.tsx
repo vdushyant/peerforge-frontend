@@ -13,6 +13,7 @@ import { queryKeys } from "@/lib/queryKeys";
 import { useBookSession } from "../hooks/useBookSession";
 import type { Session } from "../types/session";
 import { useAuth } from "@/features/auth/hooks/useAuth";
+import type { CreatePaymentOrderResponse } from "@/features/payment/types/payment";
 
 
 interface BookSessionFormProps {
@@ -101,6 +102,10 @@ export default function BookSessionForm({
   const [bookedSession, setBookedSession] =
     useState<Session | null>(null);
 
+  const [paymentQuote, setPaymentQuote] =
+    useState<CreatePaymentOrderResponse | null>(null);
+  const [paymentError, setPaymentError] = useState("");
+
   const availableDates = useMemo(() => {
     return availability.map((slot) => ({
       ...slot,
@@ -131,13 +136,22 @@ export default function BookSessionForm({
     );
   }
 
-  const openPayment = async (session: Session) => {
+  const preparePayment = async (session: Session) => {
     try {
+      setPaymentError("");
       const paymentOrder =
         await createPaymentOrder.mutateAsync(
           session.id
         );
-        
+      setPaymentQuote(paymentOrder);
+    } catch (error) {
+      console.error("Payment quote failed:", error);
+      setPaymentError("We could not prepare the payment total. Please try again.");
+    }
+  };
+
+  const openPayment = async (session: Session, paymentOrder: CreatePaymentOrderResponse) => {
+    try {
       if (!window.Razorpay) {
         throw new Error(
           "Razorpay checkout is not loaded"
@@ -148,13 +162,13 @@ export default function BookSessionForm({
         key: paymentOrder.razorpayKey,
 
         // Razorpay expects amount in paise
-        amount: paymentOrder.amount * 100,
+        amount: Math.round(paymentOrder.amount * 100),
 
         currency: paymentOrder.currency,
 
         name: "PeerForge",
 
-        description: "Mentoring session",
+        description: `Session ₹${paymentOrder.mentorAmount.toFixed(2)} + PeerForge fee ₹${paymentOrder.clientFee.toFixed(2)}`,
 
         order_id:
           paymentOrder.razorpayOrderId,
@@ -187,6 +201,8 @@ export default function BookSessionForm({
               setBookedSession({
                 ...session,
                 status: "CONFIRMED",
+                paymentStatus: "SUCCESS",
+                meetingLink: null,
               });
             }
           } catch (error) {
@@ -227,6 +243,8 @@ export default function BookSessionForm({
             await markPaymentFailed.mutateAsync(
               paymentOrder.paymentId
             );
+            setPaymentQuote(null);
+            setPaymentError("Payment did not complete. Refresh the total before trying again.");
 
           } catch (error) {
             console.error(
@@ -243,6 +261,7 @@ export default function BookSessionForm({
         "Payment creation failed:",
         error
       );
+      setPaymentError("Could not open Razorpay Checkout. Please try again.");
     }
   };
 
@@ -312,7 +331,7 @@ export default function BookSessionForm({
       setPendingSession(session);
 
       // 3. Open payment
-      await openPayment(session);
+      await preparePayment(session);
     } catch (error) {
       console.error(
         "Booking failed:",
@@ -334,6 +353,9 @@ export default function BookSessionForm({
             booked and payment has been completed.
           </p>
         </div>
+        {paymentQuote && (
+          <PaymentBreakdown quote={paymentQuote} />
+        )}
 
         <div className="rounded-lg border p-4 space-y-2">
           <p>
@@ -440,10 +462,15 @@ export default function BookSessionForm({
           </p>
         </div>
 
+        {paymentQuote ? <PaymentBreakdown quote={paymentQuote} /> : (
+          <p className="text-sm text-muted-foreground">Prepare the amount due to see the session price and PeerForge fee before paying.</p>
+        )}
+        {paymentError && <p className="text-sm text-rose-300" role="alert">{paymentError}</p>}
+
         <Button
-          onClick={() =>
-            openPayment(pendingSession)
-          }
+          onClick={() => paymentQuote
+            ? openPayment(pendingSession, paymentQuote)
+            : preparePayment(pendingSession)}
           disabled={
             createPaymentOrder.isPending ||
             verifyPayment.isPending
@@ -452,7 +479,7 @@ export default function BookSessionForm({
           {createPaymentOrder.isPending ||
             verifyPayment.isPending
             ? "Processing..."
-            : "Pay Now"}
+            : paymentQuote ? `Pay ₹${paymentQuote.amount.toFixed(2)}` : "Refresh total"}
         </Button>
       </div>
     );
@@ -519,8 +546,24 @@ export default function BookSessionForm({
           verifyPayment.isPending||
           markPaymentFailed.isPending
           ? "Processing..."
-          : "Book & Pay"}
+          : "Reserve & see total"}
       </Button>
+    </div>
+  );
+}
+
+function PaymentBreakdown({ quote }: { quote: CreatePaymentOrderResponse }) {
+  const currency = new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: quote.currency,
+    minimumFractionDigits: 2,
+  });
+  return (
+    <div className="space-y-2 rounded-xl border border-emerald-100/10 bg-emerald-200/[0.04] p-4 text-sm">
+      <div className="flex justify-between gap-4 text-slate-300"><span>Mentor session price</span><span>{currency.format(quote.mentorAmount)}</span></div>
+      <div className="flex justify-between gap-4 text-slate-300"><span>PeerForge service fee</span><span>{currency.format(quote.clientFee)}</span></div>
+      <div className="flex justify-between gap-4 border-t border-white/[0.08] pt-2 font-semibold text-white"><span>Total due</span><span>{currency.format(quote.amount)}</span></div>
+      <p className="text-xs leading-5 text-slate-400">The fee is shown separately. The mentor’s listed session price is preserved in the payout record.</p>
     </div>
   );
 }

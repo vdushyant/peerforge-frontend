@@ -4,6 +4,8 @@ export interface CreatePaymentOrderResponse {
   razorpayOrderId: string;
   razorpayKey: string;
   amount: number;
+  mentorAmount: number;
+  clientFee: number;
   currency: string;
 }
 
@@ -17,6 +19,8 @@ export interface PaymentResponse {
   id: number;
   sessionId: number;
   amount: number;
+  mentorAmount: number;
+  clientFee: number;
   status: "PENDING" | "SUCCESS" | "FAILED" | "REFUNDED";
   providerOrderId: string;
   providerPaymentId: string;

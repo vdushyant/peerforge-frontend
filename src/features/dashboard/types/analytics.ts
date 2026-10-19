@@ -6,6 +6,7 @@ export interface MentorDashboardAnalytics {
   approvedReviewCount: number;
   averageRating: number;
   grossSuccessfulPayments: number;
+  pendingPayouts: number;
 }
 
 export interface PlatformAnalytics {

@@ -13,6 +13,7 @@ export const queryKeys = {
   session: {
     me: ["session", "me"] as const,
     mentor: ["session", "mentor"] as const,
+    messages: (sessionId: number) => ["session", "messages", sessionId] as const,
   },
   notifications: {
     inbox: ["notifications", "inbox"] as const,
