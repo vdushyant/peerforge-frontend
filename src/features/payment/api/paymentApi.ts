@@ -17,6 +17,13 @@ export async function createPaymentOrderApi(
   return response.data;
 }
 
+export async function getSessionPaymentStatusApi(sessionId: number): Promise<PaymentResponse> {
+  const response = await axiosInstance.get<PaymentResponse>(
+    `/payments/orders/session/${sessionId}/status`
+  );
+  return response.data;
+}
+
 export async function verifyPaymentApi(
   request: VerifyPaymentRequest
 ): Promise<PaymentResponse> {

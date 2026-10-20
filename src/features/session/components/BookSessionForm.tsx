@@ -1,13 +1,12 @@
-import { useMemo, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useMemo, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 
 import type { Availability } from "@/features/mentor/types/mentor";
 import { useCreatePaymentOrder } from "@/features/payment/hooks/useCreatePaymentOrder";
-import { useMarkPaymentFailed } from "@/features/payment/hooks/useMarkPaymentFailed";
-import { useVerifyPayment } from "@/features/payment/hooks/useVerifyPayment";
+import { getSessionPaymentStatusApi } from "@/features/payment/api/paymentApi";
 import { queryKeys } from "@/lib/queryKeys";
 
 import { useBookSession } from "../hooks/useBookSession";
@@ -89,9 +88,7 @@ export default function BookSessionForm({
   const { isAuthenticated } = useAuth();
   const bookSession = useBookSession();
   const createPaymentOrder = useCreatePaymentOrder();
-  const verifyPayment = useVerifyPayment();
   const queryClient = useQueryClient();
-  const markPaymentFailed = useMarkPaymentFailed();
 
   const [selectedSlotId, setSelectedSlotId] =
     useState<number | null>(null);
@@ -105,6 +102,28 @@ export default function BookSessionForm({
   const [paymentQuote, setPaymentQuote] =
     useState<CreatePaymentOrderResponse | null>(null);
   const [paymentError, setPaymentError] = useState("");
+  const qrExpired = Boolean(
+    paymentQuote && Date.parse(paymentQuote.razorpayQrCodeExpiresAt) <= Date.now()
+  );
+  const paymentStatus = useQuery({
+    queryKey: ["session-payment-status", pendingSession?.id],
+    queryFn: () => getSessionPaymentStatusApi(pendingSession!.id),
+    enabled: Boolean(pendingSession && paymentQuote),
+    refetchInterval: (query) => query.state.data?.status === "SUCCESS" ? false : 5000,
+  });
+
+  useEffect(() => {
+    if (paymentStatus.data?.status !== "SUCCESS" || !pendingSession) return;
+    void queryClient.invalidateQueries({ queryKey: queryKeys.session.me });
+    void queryClient.invalidateQueries({ queryKey: queryKeys.session.mentor });
+    setBookedSession({
+      ...pendingSession,
+      status: "CONFIRMED",
+      paymentStatus: "SUCCESS",
+      meetingLink: null,
+    });
+    setPendingSession(null);
+  }, [paymentStatus.data?.status, pendingSession, queryClient]);
 
   const availableDates = useMemo(() => {
     return availability.map((slot) => ({
@@ -147,121 +166,6 @@ export default function BookSessionForm({
     } catch (error) {
       console.error("Payment quote failed:", error);
       setPaymentError("We could not prepare the payment total. Please try again.");
-    }
-  };
-
-  const openPayment = async (session: Session, paymentOrder: CreatePaymentOrderResponse) => {
-    try {
-      if (!window.Razorpay) {
-        throw new Error(
-          "Razorpay checkout is not loaded"
-        );
-      }
-
-      const options: RazorpayOptions = {
-        key: paymentOrder.razorpayKey,
-
-        // Razorpay expects amount in paise
-        amount: Math.round(paymentOrder.amount * 100),
-
-        currency: paymentOrder.currency,
-
-        name: "PeerForge",
-
-        description: `Session ₹${paymentOrder.mentorAmount.toFixed(2)} + PeerForge fee ₹${paymentOrder.clientFee.toFixed(2)}`,
-
-        order_id:
-          paymentOrder.razorpayOrderId,
-
-        handler: async (response) => {
-          try {
-            const payment =
-              await verifyPayment.mutateAsync({
-                razorpayOrderId:
-                  response.razorpay_order_id,
-
-                razorpayPaymentId:
-                  response.razorpay_payment_id,
-
-                razorpaySignature:
-                  response.razorpay_signature,
-              });
-
-            if (payment.status === "SUCCESS") {
-              await queryClient.invalidateQueries({
-                queryKey: queryKeys.session.me,
-              });
-
-              await queryClient.invalidateQueries({
-                queryKey: queryKeys.session.mentor,
-              });
-
-              setPendingSession(null);
-
-              setBookedSession({
-                ...session,
-                status: "CONFIRMED",
-                paymentStatus: "SUCCESS",
-                meetingLink: null,
-              });
-            }
-          } catch (error) {
-            console.error(
-              "Payment verification failed:",
-              error
-            );
-          }
-        },
-
-        theme: {
-          color: "#000000",
-        },
-
-        modal: {
-          ondismiss: () => {
-            console.log(
-              "Razorpay checkout closed by user"
-            );
-
-            setPendingSession(session);
-          },
-        },
-      };
-
-      const razorpay =
-        new window.Razorpay(options);
-
-      razorpay.on(
-        "payment.failed",
-        async (response) => {
-          try {
-            console.error(
-              "Razorpay payment failed:",
-              response.error
-            );
-
-            await markPaymentFailed.mutateAsync(
-              paymentOrder.paymentId
-            );
-            setPaymentQuote(null);
-            setPaymentError("Payment did not complete. Refresh the total before trying again.");
-
-          } catch (error) {
-            console.error(
-              "Failed to mark payment as failed:",
-              error
-            );
-          }
-        }
-      );
-
-      razorpay.open();
-    } catch (error) {
-      console.error(
-        "Payment creation failed:",
-        error
-      );
-      setPaymentError("Could not open Razorpay Checkout. Please try again.");
     }
   };
 
@@ -330,7 +234,7 @@ export default function BookSessionForm({
       // 2. Store pending session
       setPendingSession(session);
 
-      // 3. Open payment
+      // 3. Create the booking's tracked QR payment
       await preparePayment(session);
     } catch (error) {
       console.error(
@@ -353,7 +257,7 @@ export default function BookSessionForm({
             booked and payment has been completed.
           </p>
         </div>
-        {paymentQuote && (
+        {paymentQuote && !qrExpired && (
           <PaymentBreakdown quote={paymentQuote} />
         )}
 
@@ -467,20 +371,23 @@ export default function BookSessionForm({
         )}
         {paymentError && <p className="text-sm text-rose-300" role="alert">{paymentError}</p>}
 
-        <Button
-          onClick={() => paymentQuote
-            ? openPayment(pendingSession, paymentQuote)
-            : preparePayment(pendingSession)}
-          disabled={
-            createPaymentOrder.isPending ||
-            verifyPayment.isPending
-          }
-        >
-          {createPaymentOrder.isPending ||
-            verifyPayment.isPending
-            ? "Processing..."
-            : paymentQuote ? `Pay ₹${paymentQuote.amount.toFixed(2)}` : "Refresh total"}
-        </Button>
+        {paymentQuote && (
+          <div className="grid gap-4 rounded-xl border p-4 sm:grid-cols-[minmax(0,1fr)_180px] sm:items-center">
+            <div className="space-y-2">
+              <h4 className="font-semibold">Scan to pay with any UPI app</h4>
+              <p className="text-sm text-muted-foreground">Pay the exact amount shown above. Keep this page open; PeerForge confirms the booking after Razorpay verifies the payment.</p>
+              <p className="text-xs text-muted-foreground">QR reference: {paymentQuote.razorpayQrCodeId}</p>
+              <p className="text-xs text-muted-foreground">QR expires {new Date(paymentQuote.razorpayQrCodeExpiresAt).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}.</p>
+              <p className="text-xs text-muted-foreground">{paymentStatus.isFetching ? "Checking payment status…" : paymentStatus.data?.status === "SUCCESS" ? "Payment received." : "Waiting for payment."}</p>
+            </div>
+            <img src={paymentQuote.razorpayQrCodeImageUrl} alt="Razorpay UPI payment QR code" className="mx-auto w-44 rounded-lg bg-white p-2" />
+          </div>
+        )}
+        <div className="flex flex-wrap gap-3">
+          {!paymentQuote && <Button onClick={() => preparePayment(pendingSession)} disabled={createPaymentOrder.isPending}>{createPaymentOrder.isPending ? "Preparing QR…" : "Prepare payment QR"}</Button>}
+          {paymentQuote && qrExpired && <Button onClick={() => preparePayment(pendingSession)} disabled={createPaymentOrder.isPending}>{createPaymentOrder.isPending ? "Preparing QR…" : "QR expired — generate a new one"}</Button>}
+          {paymentQuote && !qrExpired && <Button variant="outline" onClick={() => void paymentStatus.refetch()}>Check payment status</Button>}
+        </div>
       </div>
     );
   }
@@ -536,15 +443,11 @@ export default function BookSessionForm({
         disabled={
           !selectedSlotId ||
           bookSession.isPending ||
-          createPaymentOrder.isPending ||
-          verifyPayment.isPending||
-          markPaymentFailed.isPending
+          createPaymentOrder.isPending
         }
       >
         {bookSession.isPending ||
-          createPaymentOrder.isPending ||
-          verifyPayment.isPending||
-          markPaymentFailed.isPending
+          createPaymentOrder.isPending
           ? "Processing..."
           : "Reserve & see total"}
       </Button>
@@ -563,7 +466,7 @@ function PaymentBreakdown({ quote }: { quote: CreatePaymentOrderResponse }) {
       <div className="flex justify-between gap-4 text-slate-300"><span>Mentor session price</span><span>{currency.format(quote.mentorAmount)}</span></div>
       <div className="flex justify-between gap-4 text-slate-300"><span>PeerForge service fee</span><span>{currency.format(quote.clientFee)}</span></div>
       <div className="flex justify-between gap-4 border-t border-white/[0.08] pt-2 font-semibold text-white"><span>Total due</span><span>{currency.format(quote.amount)}</span></div>
-      <p className="text-xs leading-5 text-slate-400">The fee is shown separately. The mentor’s listed session price is preserved in the payout record.</p>
+      <p className="text-xs leading-5 text-slate-400">The fee is shown separately. The mentor’s listed session price is preserved in the payment record.</p>
     </div>
   );
 }

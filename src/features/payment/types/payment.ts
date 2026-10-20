@@ -1,12 +1,15 @@
 export interface CreatePaymentOrderResponse {
   paymentId: number;
   sessionId: number;
-  razorpayOrderId: string;
-  razorpayKey: string;
+  razorpayOrderId: string | null;
+  razorpayKey: string | null;
   amount: number;
   mentorAmount: number;
   clientFee: number;
   currency: string;
+  razorpayQrCodeId: string;
+  razorpayQrCodeImageUrl: string;
+  razorpayQrCodeExpiresAt: string;
 }
 
 export interface VerifyPaymentRequest {
@@ -22,7 +25,7 @@ export interface PaymentResponse {
   mentorAmount: number;
   clientFee: number;
   status: "PENDING" | "SUCCESS" | "FAILED" | "REFUNDED";
-  providerOrderId: string;
-  providerPaymentId: string;
+  providerOrderId: string | null;
+  providerPaymentId: string | null;
   razorpayKey?: string;
 }
