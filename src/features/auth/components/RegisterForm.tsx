@@ -51,7 +51,7 @@ export default function RegisterForm() {
       });
 
       setRegistrationSubmitted(true);
-      toast.success("Verification link sent.");
+      toast.success("Account created. You can sign in now.");
     } catch {
       toast.error("Registration could not be completed. Check your details and try again.");
     } finally {
@@ -63,14 +63,11 @@ export default function RegisterForm() {
     return (
       <div className="space-y-5 text-center" role="status">
         <div className="space-y-2">
-          <h2 className="text-xl font-semibold text-white">Check your email</h2>
+          <h2 className="text-xl font-semibold text-white">Account created</h2>
           <p className="text-sm text-slate-400">
-            We sent a verification link if the account could be created. Verify your address before signing in.
+            Your account is ready. Sign in with the email and password you just registered.
           </p>
         </div>
-        <Link to="/verify-email" className="block text-sm font-medium text-violet-400 hover:text-violet-300">
-          Didn’t receive it? Resend the verification email
-        </Link>
         <Link to="/login" className="block text-sm text-slate-300 hover:text-white">
           Return to sign in
         </Link>

@@ -104,12 +104,9 @@ export default function LoginForm() {
       </div>
 
       <div className="flex justify-end">
-        <Link
-          to="/forgot-password"
-          className="text-sm text-violet-400 hover:text-violet-300"
-        >
-          Forgot Password?
-        </Link>
+        <span className="text-xs text-slate-500" title="Email delivery is not configured yet">
+          Password reset temporarily unavailable
+        </span>
       </div>
 
       <Button
