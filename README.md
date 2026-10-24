@@ -1,75 +1,69 @@
-# React + TypeScript + Vite
+# PeerForge Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+PeerForge is a mentoring marketplace for software engineers and people learning technology. This repository contains the React single-page application; the Spring Boot API is in the [backend repository](https://github.com/vdushyant/PeerForge).
 
-Currently, two official plugins are available:
+## What the app supports
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Discover mentors, view profiles, skills, availability, and reviews.
+- Create an account and sign in with email and password.
+- Manage a learner profile and skills.
+- Apply as a mentor and manage mentor availability and sessions.
+- Book and manage sessions, exchange session messages, and share a meeting link.
+- Pay for a booked session using a Razorpay UPI QR code.
+- View in-app notifications, ratings, and role-specific dashboards.
+- Administrator workflows for mentor applications and review moderation.
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19, TypeScript, and Vite
+- React Router for navigation
+- TanStack Query for server state
+- Axios for API requests
+- Tailwind CSS and Radix-based UI components
 
-## Expanding the ESLint configuration
+## Run locally
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Prerequisites: Node.js/npm and a running PeerForge backend.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Set the backend API base URL before starting Vite. The variable must include `/api/v1`:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```powershell
+$env:VITE_API_BASE_URL = "http://localhost:8080/api/v1"
+npm run dev
 ```
+
+For macOS/Linux shells:
+
+```bash
+VITE_API_BASE_URL=http://localhost:8080/api/v1 npm run dev
+```
+
+Vite displays the local URL (normally `http://localhost:5173`). Create accounts through the UI or use an existing development account.
+
+## Build and preview
+
+```bash
+npm run build
+npm run preview
+```
+
+Set `VITE_API_BASE_URL` to the intended API base URL before building for deployment. The static production output is in `dist/`. For a single-page app host, configure unknown paths to serve `index.html` so client-side routes such as `/login` continue to work after refresh.
+
+## Useful scripts
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the Vite development server |
+| `npm run build` | Type-check and create the production bundle |
+| `npm run lint` | Run ESLint |
+| `npm run preview` | Preview the production bundle locally |
+
+## API and CORS
+
+The API URL is read from `VITE_API_BASE_URL` in `src/config/env.ts`. The backend must allow the exact frontend origin in its CORS configuration. If API Gateway is used, add the same origin to API Gateway CORS as well. The frontend sends bearer access tokens for authenticated API calls and handles refresh-token flow through its auth API/interceptors.
+
+See the backend repository README for database configuration, API documentation, Postman collection, payment setup, and other service details.
